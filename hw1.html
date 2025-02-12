@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: larger;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            width: 80%;
+        }
+
+        .input-group input {
+            flex: 1;
+            margin-right: 20px;
+            margin-top: 10px;
+            padding-left: 10px;
+        }
+
+        .input-group button {
+            flex: 1;
+            margin-right: 20px;
+            margin-top: 10px;
+            padding-left: 10px;
+        }
+
+        #register {
+            background-color: rgb(41, 58, 164);
+            font-size: x-small;
+            padding: 7px;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+
+        #register-color {
+            background-color: rgb(41, 58, 164);
+            color: white;
+            font-size:8px;
+            padding: 2px;
+            border-radius: 2px;
+        }
+
+        #terms-color {
+            color: blue;
+        }
+
+        #sign-in {
+            background-color: rgb(6, 184, 26);
+            font-size: x-small;
+            color: white;
+            border: none;
+            border-radius: 3px;
+        }
+
+        #checkbox-group {
+            display: flex;
+            font-size: 10px;
+            margin-top: 20px;
+            width: 86%
+        }
+
+        #checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
+
+        #checkbox-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        #checkbox-group span {
+            margin-left: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sign Up</h1>
+        <div class="input-group">
+            <input type="text" placeholder="First Name">
+            <input type="text" placeholder="Last Name">
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Mobile No.">
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Email Address">
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Password">
+            <input type="text" placeholder="Confirm Password">
+        </div>
+    </div>
+
+    <div id="checkbox-group">
+        <label>
+            <input type="checkbox">
+            I Agree
+        </label>
+        <span>By clicking <span id="register-color">Register</span>, you agree to the <span id="terms-color">Terms and Conditions</span> set<br />
+            out by this site, including our Cookie Use.
+        </span>
+    </div>
+
+    <div class="container">
+        <div class="input-group">
+            <button id="register">Register</button>
+            <button id="sign-in">Sign In</button>
+        </div>
+    </div>
+</body>
+
+
+</html>

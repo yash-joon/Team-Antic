@@ -1,0 +1,41 @@
+
+
+#header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(184, 181, 181);
+}
+
+#header h1{
+    margin: 0;
+    font-size: 40px;
+    color: blue;
+    
+}
+
+#header p {
+    font-weight: bold;
+
+}
+#cardAndPointsSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 1rem;
+}
+
+#middleComponents{
+    display: flex;
+    align-items: center;
+    gap: 30rem;
+}
+
+#redeemButtonContainer{
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+}
+
+

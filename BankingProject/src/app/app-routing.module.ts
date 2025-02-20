@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SecurityComponent } from './settings/security/security.component';
-import { PersonalDetailsComponent } from './settings/personal-details/personal-details.component';
-import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
 
+import { HomePageComponent } from './home-page/home-page.component';
+import { RewardsPageComponent } from './rewardsPage/rewards-page.component';
 const routes: Routes = [
-  { path: 'security', component: SecurityComponent },
-  { path: 'personal-details', component: PersonalDetailsComponent },
-  { path: 'sign-in-preferences', component: SignInPreferencesComponent },
-  { path: '', redirectTo: '/security', pathMatch: 'full' },
-  { path: '**', redirectTo: '/security' }
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
+  { path: 'home', component: HomePageComponent },
+  // TODO: Connect Settings page
+  // { path: 'settings', ... },
+  { path: 'rewards', component: RewardsPageComponent},
+  // TODO: Connect Store Locator page
+  // { path: 'locator', ...},
+  { path: '**', redirectTo: '/home' } // Redirect unknown routes to home
 ];
 
 @NgModule({

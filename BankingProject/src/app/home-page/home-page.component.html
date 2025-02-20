@@ -1,0 +1,80 @@
+<!-- Burndown -->
+<h1>Monthly Spending Burndown</h1>
+
+<div class="burndown-page">
+    <div class="bar-numbers">
+        <div class="scheduled-out">
+            <div>
+                Scheduled Out
+            </div>
+            <div class="text">
+                ${{scheduledOutAmount}}
+            </div>
+        </div>
+        <div class="reserve">
+            <div>
+                Reserve
+            </div>
+            <div class="text">
+                ${{reserveAmount}}
+            </div>
+        </div>
+        <div class="savings">
+            <div>            
+                Savings
+            </div>
+            <div class="text">
+                ${{savingsAmount}}
+            </div>
+        </div>
+    </div>
+    <div class="bar-chart">
+        <div class="scheduled-out">
+            
+        </div>
+        <div class="reserve">
+
+        </div>
+        <div class="savings">
+
+        </div>
+    </div>
+
+    <div class="transfer burndown-button">
+        <button>
+            Make a Transfer
+        </button>
+        <button>
+            Make a Payment
+        </button>
+    </div>
+
+    <div class="burndown-details">
+        <div class="burndown-actions burndown-button">
+            <button>
+                Scheduled Out
+            </button>
+            <button>
+                Savings List
+            </button>
+        </div>
+        <div class="dataTable">
+            <table>
+                <th>
+                    Scheduled Out Until {{scheduledOutDate}}
+                </th>
+                <ng-container *ngFor="let item of scheduledOutData">
+                    <tr>
+                        <td>
+                            {{item.date}} - {{item.service}}
+                        </td>
+                        <td>
+                            ${{item.cost}}
+                        </td>
+                    </tr>
+                    
+                </ng-container>
+            </table>
+        </div>
+    </div>
+</div>

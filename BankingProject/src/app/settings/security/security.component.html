@@ -1,0 +1,59 @@
+<div class="settings-page">
+    <div class="security-section">
+      <h2>🔐 Account Security</h2>
+      <div class="security-item">
+        <div class="item-header">
+          <h3>Password</h3>
+          <button class="btn-edit" (click)="showPasswordForm = !showPasswordForm">Change Password</button>
+        </div>
+        <form class="password-form" *ngIf="showPasswordForm">
+          <input type="password" placeholder="Current Password" required>
+          <input type="password" placeholder="New Password" required>
+          <input type="password" placeholder="Confirm New Password" required>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="showPasswordForm = false">Cancel</button>
+            <button type="submit" class="btn-save">Update Password</button>
+          </div>
+        </form>
+      </div>
+  
+      <div class="security-item">
+        <div class="item-header">
+          <h3>Two-Factor Authentication (2FA)</h3>
+          <div class="toggle-switch" [class.active]="is2FAEnabled" (click)="toggle2FA()">
+            <div class="slider"></div>
+          </div>
+        </div>
+        <div class="2fa-setup" *ngIf="is2FAEnabled">
+          <div class="qrcode-container">
+            <img src="placeholder-qrcode.png" alt="2FA QR Code">
+          </div>
+          <p class="verification-code">Verification Code: 123 456</p>
+          <input type="text" placeholder="Enter 6-digit code" maxlength="6">
+          <div class="backup-codes">
+            <h4>Backup Codes</h4>
+            <div class="codes-grid">
+              <span *ngFor="let code of backupCodes">{{ code }}</span>
+            </div>
+            <button class="btn-generate">Generate New Codes</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="security-item">
+        <h3>Active Sessions</h3>
+        <div class="session-list">
+          <div class="session-item" *ngFor="let session of activeSessions">
+            <div class="session-info">
+              <div class="device-icon">📱</div>
+              <div class="device">
+               {{ session.device }}
+              </div>
+              <button class="btn-revoke">Revoke</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

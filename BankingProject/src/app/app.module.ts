@@ -9,11 +9,13 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { RewardsPageComponent } from './rewardsPage/rewards-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     NavbarComponent
+
   ],
   imports: [
     BrowserModule,

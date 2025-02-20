@@ -1,0 +1,56 @@
+.settings-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+  }
+}
+
+.details-form {
+  display: grid;
+  gap: 1.5rem;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .verified-email {
+      position: relative;
+
+      .verified-badge {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #27ae60;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .phone-input {
+    display: flex;
+    gap: 0.5rem;
+
+    select {
+      width: 80px;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+  }
+  .btn-cancel{
+    margin: 10px;
+  }
+}

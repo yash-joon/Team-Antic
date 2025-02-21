@@ -1,0 +1,67 @@
+.store-locator-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: 80%;
+    padding: 1rem;
+}
+
+h1 {
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.search-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    
+    input {
+        padding: 8px;
+        font-size: 16px;
+        width: 200px;
+    }
+
+    .button {
+        border-radius: 4px;
+        padding: 10px 20px;
+        background-color: gray;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darkgray;
+        }
+    }
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: rgb(200, 200, 200);
+}

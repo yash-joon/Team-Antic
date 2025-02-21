@@ -1,0 +1,31 @@
+
+<h1>Store Locator</h1>
+
+<div class="store-locator-page">
+    <div class="search-container">
+        <div class="search-inputs">
+            <input type="text" [(ngModel)]="zipcode" placeholder="Enter ZIP Code">
+            <input type="text" [(ngModel)]="address" placeholder="Enter Address">
+            <button class="button" (click)="searchStores()">Search</button>
+        </div>
+        <div id="map"></div>
+    </div>
+    
+    <h3>Store Locations</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Store Name</th>
+                <th>Address</th>
+                <th>ZIP Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let store of stores">
+                <td>{{ store.name }}</td>
+                <td>{{ store.address }}</td>
+                <td>{{ store.zip }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

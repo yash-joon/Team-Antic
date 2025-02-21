@@ -13,6 +13,7 @@ import { SecurityComponent } from './settings/security/security.component';
 import { PersonalDetailsComponent } from './settings/personal-details/personal-details.component';
 import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
 import { AuthComponent } from './auth/auth.component';
+import { StoreLocatorComponent } from './store-locator/store-locator.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AuthComponent } from './auth/auth.component';
     SecurityComponent,
     PersonalDetailsComponent,
     SignInPreferencesComponent,
-    AuthComponent
+    AuthComponent,
+    StoreLocatorComponent
   ],
   imports: [
     BrowserModule,

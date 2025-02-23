@@ -12,6 +12,10 @@ import { SettingsComponent } from './settings/settings.component';
 import { SecurityComponent } from './settings/security/security.component';
 import { PersonalDetailsComponent } from './settings/personal-details/personal-details.component';
 import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
+import { AuthComponent } from './auth/auth.component';
+import { StoreLocatorComponent } from './store-locator/store-locator.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -21,12 +25,15 @@ import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-
     SettingsComponent,
     SecurityComponent,
     PersonalDetailsComponent,
-    SignInPreferencesComponent
+    SignInPreferencesComponent,
+    AuthComponent,
+    StoreLocatorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RewardsPageModule
+    RewardsPageModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

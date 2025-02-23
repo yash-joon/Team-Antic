@@ -1,7 +1,7 @@
 
 .navbar {
     display: flex;
-    background-color: lightgray;
+    background-color: #c8d8e4;
     justify-content: flex-end;
     height: 20%;
     // padding: 10px 0;
@@ -17,20 +17,20 @@
   
         // Hover effect
         &:hover {
-            background-color: #555; // Slightly lighter background on hover
-            color: #fff;
+            background-color: #f2f2f2;
+            color: black;
         }
   
         // Active tab styling
         &.active {
-            background-color: #007bff; // Blue background for active tab
+            background-color: #2b6777;
             color: white;
             font-weight: bold;
         }
   
         // Add a separator between tabs (optional)
         &:not(:last-child) {
-            border-right: 1px solid #555;
+            border-right: 1px solid white;
         }
     }
 }

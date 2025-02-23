@@ -14,6 +14,8 @@ import { PersonalDetailsComponent } from './settings/personal-details/personal-d
 import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
 import { AuthComponent } from './auth/auth.component';
 import { StoreLocatorComponent } from './store-locator/store-locator.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { StoreLocatorComponent } from './store-locator/store-locator.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RewardsPageModule
+    RewardsPageModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

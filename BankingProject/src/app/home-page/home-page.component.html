@@ -8,7 +8,7 @@
                 Scheduled Out
             </div>
             <div class="text">
-                ${{scheduledOutAmount}}
+                ${{scheduledOutAmount | number:'1.2-2'}}
             </div>
         </div>
         <div class="reserve">
@@ -16,7 +16,7 @@
                 Reserve
             </div>
             <div class="text">
-                ${{reserveAmount}}
+                ${{reserveAmount | number:'1.2-2'}}
             </div>
         </div>
         <div class="savings">
@@ -24,18 +24,18 @@
                 Savings
             </div>
             <div class="text">
-                ${{savingsAmount}}
+                ${{ savingsAmount | number:'1.2-2' }}
             </div>
         </div>
     </div>
     <div class="bar-chart">
-        <div class="scheduled-out">
+        <div class="scheduled-out" [style.width.%]="scheduledOutPercentage">
             
         </div>
-        <div class="reserve">
+        <div class="reserve" [style.width.%]="reservePercentage">
 
         </div>
-        <div class="savings">
+        <div class="savings" [style.width.%]="savingsPercentage">
 
         </div>
     </div>
@@ -51,15 +51,20 @@
 
     <div class="burndown-details">
         <div class="burndown-actions burndown-button">
-            <button>
+            <button
+                (click)="switchTableMode('scheduledOut')"
+                [class.active]="currentTableMode === 'scheduledOut'">
                 Scheduled Out
             </button>
-            <button>
+            <button
+                (click)="switchTableMode('savings')"
+                [class.active]="currentTableMode === 'savings'">
                 Savings List
             </button>
         </div>
-        <div class="dataTable">
-            <table>
+
+        <div class="dataTable" [ngSwitch]="currentTableMode">
+            <table *ngSwitchCase="'scheduledOut'">
                 <th>
                     Scheduled Out Until {{scheduledOutDate}}
                 </th>
@@ -70,6 +75,22 @@
                         </td>
                         <td>
                             ${{item.cost}}
+                        </td>
+                    </tr>
+                    
+                </ng-container>
+            </table>
+            <table *ngSwitchCase="'savings'">
+                <th>
+                    Savings
+                </th>
+                <ng-container *ngFor="let item of savingsData">
+                    <tr>
+                        <td>
+                            {{item.date}} - {{item.description}}
+                        </td>
+                        <td>
+                            ${{item.amount}}
                         </td>
                     </tr>
                     

@@ -24,13 +24,44 @@ export class HomePageComponent implements OnInit {
     {date: "2/24/25", service: "Pizza", cost: "13.19"}
   ]
 
-  scheduledOutDate = "February 25, 2025"
-  scheduledOutAmount = 0.00;
-  reserveAmount = 1801.28;
-  savingsAmount = 877.91;
-  
-  // Calculates total cost from data
+  // Dummy Data for Savings
+  savingsData = [
+    { date: "2/19/25", description: "Emergency Fund", amount: "500.00" },
+    { date: "2/20/25", description: "Vacation Savings", amount: "200.00" },
+    { date: "2/21/25", description: "Retirement Fund", amount: "300.00" }
+  ];
+
+  scheduledOutDate : string = "February 25, 2025"
+  scheduledOutAmount : number = 0.00;
+  reserveAmount : number = 1801.28;
+  savingsAmount : number = 0.00;
+
+  totalAmount : number = 0;
+  scheduledOutPercentage : number = 0;
+  reservePercentage : number = 0;
+  savingsPercentage : number = 0;
+
+  currentTableMode : string = "scheduledOut";
+  switchTableMode(mode: 'scheduledOut' | 'savings') {
+    this.currentTableMode = mode;
+  }
   ngOnInit(): void {
-    this.scheduledOutAmount = this.scheduledOutData.reduce((total, val) => total + parseInt(val.cost), 0.00)
+    // Calculates total scheduledOut cost from data
+    this.scheduledOutAmount = Number(
+      this.scheduledOutData.reduce((total, val) => total + parseFloat(val.cost), 0.00).toFixed(2)
+    );
+
+    // Calculates total savings from data
+    this.savingsAmount = Number(
+      this.savingsData.reduce((total, val) => total + parseFloat(val.amount), 0.00).toFixed(2)
+    );
+    
+    // Calculates total money in bank account
+    this.totalAmount = this.scheduledOutAmount + this.reserveAmount + this.savingsAmount;
+
+    // Calculate percentages
+    this.scheduledOutPercentage = (this.scheduledOutAmount / this.totalAmount) * 100;
+    this.reservePercentage = (this.reserveAmount / this.totalAmount) * 100;
+    this.savingsPercentage = (this.savingsAmount / this.totalAmount) * 100;
   }
 }

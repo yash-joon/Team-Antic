@@ -36,7 +36,7 @@ export class HomePageComponent implements OnInit {
   
   ngOnInit(): void {
     // Calculates total cost from data
-    this.scheduledOutAmount = this.scheduledOutData.reduce((total, val) => total + parseInt(val.cost), 0.00)
+    this.scheduledOutAmount = this.scheduledOutData.reduce((total, val) => total + parseFloat(val.cost), 0.00)
 
     // Calculates total money in bank account
     this.totalAmount = this.scheduledOutAmount + this.reserveAmount + this.savingsAmount;

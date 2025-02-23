@@ -1,41 +1,95 @@
 
 
 #header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgb(184, 181, 181);
+    text-align: center;
+}
+
+img{
+    height: 10rem;
+    width: auto;
+}
+#pointsInfo{
+    text-align: center;
+    vertical-align: middle;
+    p{
+        font-size: 2rem;
+    }
 }
 
 #header h1{
     margin: 0;
     font-size: 40px;
-    color: blue;
-    
+    color: black;
+    padding: 1rem;
 }
+button{
+    text-align: center;
+    background-color: #52ab98;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    height: 3rem;
+    width: 9rem;
+    font-size: 1rem;
+}
+
+
 
 #header p {
     font-weight: bold;
+}
 
-}
-#cardAndPointsSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 1rem;
-}
 
 #middleComponents{
     display: flex;
-    align-items: center;
-    gap: 30rem;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: row;
+    
+}
+
+#earningsVisual{
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    border: white;
+    border-style: solid;
+    height: 2rem;
+    width: 100%;
+    text-align: center;
+
+    #diningPortion{
+        box-sizing: border-box;
+        border: yellow;
+        border-style: solid;
+        width: 20%;
+        background-color: yellow;
+    }
+    #purchasesPortion{
+        box-sizing: border-box;
+        border: #c8d8e4;
+        border-style: solid;
+        width: 50%;
+        background-color: #c8d8e4;
+    }
+
+    #otherPortion{
+        box-sizing: border-box;
+        border: greenyellow;
+        border-style: solid;
+        width: 30%;
+        background-color: greenyellow;
+    }
+}
+
+#cardAndPointsSection {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 #redeemButtonContainer{
+    display: flex;
     align-items: center;
     justify-content: center;
     align-self: center;
 }
-
-

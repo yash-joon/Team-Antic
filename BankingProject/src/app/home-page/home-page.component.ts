@@ -28,9 +28,22 @@ export class HomePageComponent implements OnInit {
   scheduledOutAmount = 0.00;
   reserveAmount = 1801.28;
   savingsAmount = 877.91;
+
+  totalAmount = 0;
+  scheduledOutPercentage = 0;
+  reservePercentage = 0;
+  savingsPercentage = 0;
   
-  // Calculates total cost from data
   ngOnInit(): void {
+    // Calculates total cost from data
     this.scheduledOutAmount = this.scheduledOutData.reduce((total, val) => total + parseInt(val.cost), 0.00)
+
+    // Calculates total money in bank account
+    this.totalAmount = this.scheduledOutAmount + this.reserveAmount + this.savingsAmount;
+
+    // Calculate percentages
+    this.scheduledOutPercentage = (this.scheduledOutAmount / this.totalAmount) * 100;
+    this.reservePercentage = (this.reserveAmount / this.totalAmount) * 100;
+    this.savingsPercentage = (this.savingsAmount / this.totalAmount) * 100;
   }
 }

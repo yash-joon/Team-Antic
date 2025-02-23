@@ -34,22 +34,28 @@ export class HomePageComponent implements OnInit {
   scheduledOutDate : string = "February 25, 2025"
   scheduledOutAmount : number = 0.00;
   reserveAmount : number = 1801.28;
-  savingsAmount : number = 877.91;
+  savingsAmount : number = 0.00;
 
   totalAmount : number = 0;
   scheduledOutPercentage : number = 0;
   reservePercentage : number = 0;
   savingsPercentage : number = 0;
 
-  tableMode = "scheduledOut";
-  switchTableMode(mode: String) {
-    console.log(mode);
+  currentTableMode : string = "scheduledOut";
+  switchTableMode(mode: 'scheduledOut' | 'savings') {
+    this.currentTableMode = mode;
   }
   ngOnInit(): void {
-    // Calculates total cost from data
-    this.scheduledOutAmount = this.scheduledOutData.reduce((total, val) => total + parseFloat(val.cost), 0.00)
+    // Calculates total scheduledOut cost from data
+    this.scheduledOutAmount = Number(
+      this.scheduledOutData.reduce((total, val) => total + parseFloat(val.cost), 0.00).toFixed(2)
+    );
 
-    this.savingsAmount = this.savingsData.reduce((total, val) => total + parseFloat(val.amount), 0.00)
+    // Calculates total savings from data
+    this.savingsAmount = Number(
+      this.savingsData.reduce((total, val) => total + parseFloat(val.amount), 0.00).toFixed(2)
+    );
+    
     // Calculates total money in bank account
     this.totalAmount = this.scheduledOutAmount + this.reserveAmount + this.savingsAmount;
 

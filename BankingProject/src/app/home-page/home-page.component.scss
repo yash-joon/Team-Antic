@@ -26,10 +26,10 @@ $white : #ffffff;
     display: flex;
     justify-content: center;
     width: 100%;
-    .burndown-options {
-        display: flex;
-        margin:auto;
-        width: 100%;
+    button {
+        &.active {
+            background-color: $washed-green;
+        }
     }
 }
 

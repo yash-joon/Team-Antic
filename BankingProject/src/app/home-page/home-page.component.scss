@@ -27,6 +27,7 @@ $white : #ffffff;
     justify-content: center;
     width: 100%;
     button {
+        width: 100%;
         &.active {
             background-color: $washed-green;
         }

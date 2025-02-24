@@ -4,12 +4,13 @@ import { RewardsPageComponent } from './rewards-page.component';
 
 
 
+
 @NgModule({
   declarations: [
     RewardsPageComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ], 
   exports:[
     RewardsPageComponent

@@ -6,8 +6,8 @@
 <div id="cardAndPointsSection">
     <img src = "assets/CreditCardExample.jpg" alt="Credit Card Example">
     <div id="pointsInfo">
-        <p>Available points: <span id = "availablePoints">xx,xxx</span></p>
-        <p>Pending points: <span id = "pendingPoints">xx,xxx</span></p>
+        <p>Available points: <span id = "availablePoints">{{totalPoints}}</span></p>
+        
     </div>
 </div>
 
@@ -17,16 +17,23 @@
         <h2>Total Point Earnings Q1 2025</h2>
 
         <div id="earningsVisual">
-            <div id="diningPortion">Dining</div>
-            <div id="purchasesPortion">All purchases</div>
-            <div id="otherPortion">Other</div>
+            <div *ngIf="diningPoints>0" id="diningPortion" [ngStyle] ="{'width': dpercent +'%'}"
+                (mouseover)="displayHoverInfo()">Dining</div>
+            <div *ngIf="groceryPoints>0" id="purchasesPortion" [ngStyle] ="{'width': gpercent +'%'}"
+                >Grocery</div>
+            <div *ngIf="entertainmentPoints>0" id="entertainmentPortion" [ngStyle] ="{'width': epercent +'%'}"
+                >Entertainment</div>
+            <div *ngIf="travelPoints>0" id = "travelPortion" [ngStyle] ="{'width': tpercent +'%'}"
+                >Travel</div>
+            <div *ngIf="otherPoints>0" id="otherPortion" [ngStyle] ="{'width': opercent +'%'}"
+                >Other</div>
         </div>
         
         <ul id="rewards-rates">
-            <li>2% on all purchases</li>
-            <li>4% on travel</li>
-            <li>3% on dining</li>
-            <li>1.5% on Uber and Lyft</li>
+            <li>2% on Grocery purchases</li>
+            <li>4% on Travel</li>
+            <li>3% on Dining</li>
+            <li>1.5% on Entertainment</li>
             <li>1% on other</li>
         </ul>
     </div>
@@ -34,11 +41,10 @@
     <div id="transactions">
         <h2>Point Transactions</h2>
         <ul>
-            <li>2/19/2025 - Walmart +1000 pts</li>
-            <li>2/19/2025 - Chipotle +40 pts</li>
-            <li>2/20/2025 - Movie Theater +10 pts</li>
-            <li>2/21/2025 - McDonalds +10 pts</li>
-            <li>2/23/2025 - Costco Gas +30 pts</li>
+            <li *ngFor="let item of scheduledOutData">
+                {{item.date}} - {{item.service}} + {{item.pointsEarned}}
+            </li>
+            
         </ul>
     </div>
 </div>

@@ -27,17 +27,16 @@ button{
     background-color: #52ab98;
     border-radius: 1rem;
     box-sizing: border-box;
+    border: none;
     height: 3rem;
     width: 9rem;
     font-size: 1rem;
+    color: white;
 }
-
-
 
 #header p {
     font-weight: bold;
 }
-
 
 #middleComponents{
     display: flex;
@@ -54,21 +53,19 @@ button{
     border: white;
     border-style: solid;
     height: 2rem;
-    width: 100%;
+    width: 50rem;
     text-align: center;
 
     #diningPortion{
         box-sizing: border-box;
         border: yellow;
         border-style: solid;
-        width: 20%;
         background-color: yellow;
     }
     #purchasesPortion{
         box-sizing: border-box;
         border: #c8d8e4;
         border-style: solid;
-        width: 50%;
         background-color: #c8d8e4;
     }
 
@@ -76,8 +73,19 @@ button{
         box-sizing: border-box;
         border: greenyellow;
         border-style: solid;
-        width: 30%;
         background-color: greenyellow;
+    }
+    #entertainmentPortion{
+        box-sizing: border-box;
+        border: red;
+        border-style: solid;
+        background-color: red;
+    }
+    #travelPortion{
+        box-sizing: border-box;
+        border: pink;
+        border-style: solid;
+        background-color: pink;
     }
 }
 

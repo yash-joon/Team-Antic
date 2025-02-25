@@ -97,7 +97,7 @@ export class HomePageComponent implements OnInit {
       "date": "2/19/25",
       "service": "Walmart",
       "category": "Groceries",
-      "cost": "140.04",
+      "cost": "1400.04",
       "paymentMethod": "Credit Card",
       "location": {
         "storeName": "Walmart Supercenter",
@@ -165,7 +165,7 @@ export class HomePageComponent implements OnInit {
       "date": "2/23/25",
       "service": "Costco Gas",
       "category": "Transportation",
-      "cost": "32.12",
+      "cost": "320.12",
       "paymentMethod": "Credit Card",
       "location": {
         "storeName": "Costco Gas Station",
@@ -199,7 +199,7 @@ export class HomePageComponent implements OnInit {
       "date": "2/23/25",
       "service": "Ice Skating",
       "category": "Entertainment",
-      "cost": "19.24",
+      "cost": "190.24",
       "paymentMethod": "Credit Card",
       "location": {
         "storeName": "Springfield Ice Arena",
@@ -233,7 +233,7 @@ export class HomePageComponent implements OnInit {
       "date": "2/24/25",
       "service": "Subway",
       "category": "Dining",
-      "cost": "12.89",
+      "cost": "1200.89",
       "paymentMethod": "Debit Card",
       "location": {
         "storeName": "Subway",

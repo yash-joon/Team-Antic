@@ -21,8 +21,8 @@ export class HomePageComponent implements OnInit {
       {
         label: 'Daily Balance',
         data: [],
-        borderColor: 'blue',
-        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+        borderColor: '#2b6777',
+        backgroundColor: '#52ab98',
         fill: true
       }
     ]

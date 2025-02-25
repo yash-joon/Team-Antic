@@ -9,34 +9,85 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor() {
+    this.calculateDailyBalance();
+  }
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
-  public barChartData: ChartData<'bar'> = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  // Line chart data
+  lineChartData: ChartConfiguration['data'] = {
+    labels: [],
     datasets: [
-      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-      { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+      {
+        label: 'Daily Balance',
+        data: [],
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+        fill: true
+      }
     ]
   };
 
-  // Bar chart options
-  public barChartOptions: ChartConfiguration['options'] = {
+  // Line chart options
+  lineChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     scales: {
-      x: {},
+      x: {
+        title: {
+          display: true,
+          text: 'Date'
+        }
+      },
       y: {
-        min: 0
+        title: {
+          display: true,
+          text: 'Balance ($)'
+        },
+        beginAtZero: true
       }
     }
   };
-  // Bar chart type
-  public barChartType: ChartType = 'bar';
-  // Function to update the chart
-  updateChart() {
-    this.barChartData.datasets[0].data = [Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100];
-    this.chart?.update(); // Use BaseChartDirective to update the chart
+
+  // Line chart type
+  lineChartType: ChartType = 'line';
+
+  calculateDailyBalance() {
+    const balanceByDate: { [key: string]: number } = {};
+
+    // Add reserve amounts
+    this.reserveData.forEach(entry => {
+      const date = entry.date;
+      const amount = parseFloat(entry.amount);
+      balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+    });
+
+    // Add savings amounts
+    this.savingsData.forEach(entry => {
+      const date = entry.date;
+      const amount = parseFloat(entry.amount);
+      balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+    });
+
+    // Subtract scheduled out amounts
+    this.scheduledOutData.forEach(entry => {
+      const date = entry.date;
+      const cost = parseFloat(entry.cost);
+      balanceByDate[date] = (balanceByDate[date] || 0) - cost;
+    });
+
+    // Sort dates and calculate cumulative balance
+    const sortedDates = Object.keys(balanceByDate).sort();
+    let cumulativeBalance = 0;
+    const balances: number[] = [];
+
+    sortedDates.forEach(date => {
+      cumulativeBalance += balanceByDate[date];
+      balances.push(cumulativeBalance);
+    });
+
+    // Update chart data
+    this.lineChartData.labels = sortedDates;
+    this.lineChartData.datasets[0].data = balances;
   }
 
   // Dummy data for scheduled out
@@ -453,7 +504,7 @@ export class HomePageComponent implements OnInit {
   savingsPercentage : number = 0;
 
   currentTableMode : string = "scheduledOut";
-  switchTableMode(mode: 'scheduledOut' | 'savings') {
+  switchTableMode(mode: 'scheduledOut' | 'reserve' | 'savings') {
     this.currentTableMode = mode;
   }
   ngOnInit(): void {

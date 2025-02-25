@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' }, // Default route
   { path: 'auth', component:AuthComponent },
   { path: 'home', component: HomePageComponent },
-  // TODO: Connect Settings page
   { path: 'settings', component: SettingsComponent },
   { path: 'rewards', component: RewardsPageComponent },
   { path: 'locator', component: StoreLocatorComponent },

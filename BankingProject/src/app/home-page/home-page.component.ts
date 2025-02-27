@@ -147,55 +147,68 @@ export class HomePageComponent implements OnInit {
 
   calculateDailyBalance() {
     const balanceByDate: { [key: string]: number } = {};
-  
+
     // Helper function to parse and normalize date
     const parseDate = (dateStr: string): Date => {
-      const [month, day, year] = dateStr.split('/').map(Number);
-      return new Date(year, month - 1, day); // Months are 0-based in JS Dates
+        const [month, day, year] = dateStr.split('/').map(Number);
+        return new Date(year, month - 1, day); // Months are 0-based in JS Dates
     };
-  
+
+    // Helper function to get the first day of the next month
+    const getFirstDayOfNextMonth = (date: Date): Date => {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    };
+
     // Add reserve amounts
     this.reserveData.forEach(entry => {
-      const date = entry.date;
-      const amount = parseFloat(entry.amount);
-      balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+        const date = entry.date;
+        const amount = parseFloat(entry.amount);
+        balanceByDate[date] = (balanceByDate[date] || 0) + amount;
     });
-  
+
     // Add savings amounts
     this.savingsData.forEach(entry => {
-      const date = entry.date;
-      const amount = parseFloat(entry.amount);
-      balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+        const date = entry.date;
+        const amount = parseFloat(entry.amount);
+        balanceByDate[date] = (balanceByDate[date] || 0) + amount;
     });
-  
-    // Subtract scheduled out amounts
+
+    // Aggregate scheduled out amounts and apply them on the first day of the next month
+    const scheduledOutAggregated: { [key: string]: number } = {};
     this.scheduledOutData.forEach(entry => {
-      const date = entry.date;
-      const cost = parseFloat(entry.cost);
-      balanceByDate[date] = (balanceByDate[date] || 0) - cost;
+        const date = parseDate(entry.date);
+        const nextMonthDate = getFirstDayOfNextMonth(date);
+        const nextMonthDateStr = `${nextMonthDate.getMonth() + 1}/${nextMonthDate.getDate()}/${nextMonthDate.getFullYear()}`;
+        const cost = parseFloat(entry.cost);
+        scheduledOutAggregated[nextMonthDateStr] = (scheduledOutAggregated[nextMonthDateStr] || 0) + cost;
     });
-  
+
+    // Subtract aggregated scheduled out amounts
+    Object.keys(scheduledOutAggregated).forEach(date => {
+        balanceByDate[date] = (balanceByDate[date] || 0) - scheduledOutAggregated[date];
+    });
+
     // Sort dates correctly
     const sortedDates = Object.keys(balanceByDate)
-      .map(dateStr => ({ dateStr, dateObj: parseDate(dateStr) }))
-      .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
-      .map(entry => entry.dateStr); // Convert back to string format
-  
+        .map(dateStr => ({ dateStr, dateObj: parseDate(dateStr) }))
+        .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
+        .map(entry => entry.dateStr); // Convert back to string format
+
     let cumulativeBalance = 0;
     const balances: number[] = [];
-  
+
     sortedDates.forEach(date => {
-      cumulativeBalance += balanceByDate[date];
-      balances.push(cumulativeBalance);
+        cumulativeBalance += balanceByDate[date];
+        balances.push(cumulativeBalance);
     });
-  
+
     // Update chart data
     console.log(sortedDates);
     this.lineChartData.labels = sortedDates;
     this.lineChartData.datasets[0].data = balances;
 
     this.chart?.update();
-  }
+}
   
   scheduledOutData: ScheduledOutData[] = [];
   reserveData: ReserveData[] = [];

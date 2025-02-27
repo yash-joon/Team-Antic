@@ -3,6 +3,7 @@ import { ScheduledOutData, ReserveData, SavingsData } from "./dummyData.interfac
 
 // vvvvvvvvvvvvvvvv CHANGE THESE VALUES vvvvvvvvvvvvvvvv
 const numEntries = 200;
+const variance = 5; // cost = cost * variance
 const earliestDate : Date = new Date(2024, 1, 25); // Year, Month(0-11), Day(1-31)
 const latestDate : Date = new Date(2025, 1, 25); // Year, Month(0-11), Day(1-31)
 
@@ -20,7 +21,7 @@ function getRandomDate(start: Date, end: Date): string {
 
 // Helper function to generate a random cost or amount
 function getRandomCostOrAmount(min: number, max: number): string {
-    return (Math.random() * (max - min) + min).toFixed(2);
+    return (variance*Math.random() * (max - min) + min).toFixed(2);
 }
 
 // Helper function to generate a random latitude/longitude

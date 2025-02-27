@@ -3,8 +3,8 @@ import { ScheduledOutData, ReserveData, SavingsData } from "./dummyData.interfac
 
 // vvvvvvvvvvvvvvvv CHANGE THESE VALUES vvvvvvvvvvvvvvvv
 const numEntries = 200;
-const earliestDate : Date = new Date(2024, 2, 25); // Year, Month(0-11), Day(1-31)
-const latestDate : Date = new Date(2025, 2, 25); // Year, Month(0-11), Day(1-31)
+const earliestDate : Date = new Date(2024, 1, 25); // Year, Month(0-11), Day(1-31)
+const latestDate : Date = new Date(2025, 1, 25); // Year, Month(0-11), Day(1-31)
 
 // ^^^^^^^^^^^^^^^^ CHANGE THESE VALUES ^^^^^^^^^^^^^^^^
 

@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // vvvvvvvvvvvvvvvv CHANGE THESE VALUES vvvvvvvvvvvvvvvv
 var numEntries = 200;
-var earliestDate = new Date(2024, 2, 25); // Year, Month(0-11), Day(1-31)
-var latestDate = new Date(2025, 2, 25); // Year, Month(0-11), Day(1-31)
+var earliestDate = new Date(2024, 1, 25); // Year, Month(0-11), Day(1-31)
+var latestDate = new Date(2025, 1, 25); // Year, Month(0-11), Day(1-31)
 // ^^^^^^^^^^^^^^^^ CHANGE THESE VALUES ^^^^^^^^^^^^^^^^
 // -----------Helper Functions----------
 // Helper function to generate a random date

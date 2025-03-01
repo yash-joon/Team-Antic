@@ -9,11 +9,8 @@ export class SecurityComponent {
   showPasswordForm = false;
   currentPassword: string = '';
   newPassword: string = '';
-  confirmPassword: string = '';
+  confirmNewPassword: string = '';
   is2FAEnabled = false;
-  verificationCode: string = '123 456';
-  enteredCode: string = '';
-  backupCodes: string[] = ['code1', 'code2', 'code3'];
   activeSessions = [
     { id: 1, device: 'Device 1', location: 'Location 1', lastActive: 'Last Active 1' },
     { id: 2, device: 'Device 2', location: 'Location 2', lastActive: 'Last Active 2' }
@@ -24,22 +21,36 @@ export class SecurityComponent {
   }
 
   updatePassword() {
-    // Add your password update logic here
+    
+    if (this.newPassword !== this.confirmNewPassword) {
+      alert('New passwords do not match!');
+      return;
+    }
+
+    // console.log('Updating password...', {
+    //   current: this.currentPassword,
+    //   new: this.newPassword
+    // });
+
+    // using API to update the password(need to check if the old password is valid,if it is valid then can
+    // update the new password)
+    // this.authService.updatePassword(this.currentPassword, this.newPassword).subscribe(response => { ... });
+
+    alert('Password updated successfully!');
   }
 
   cancelPasswordChange() {
     this.showPasswordForm = false;
   }
 
-  toggle2FA() {
-    this.is2FAEnabled = !this.is2FAEnabled;
+
+  revoke(sessionId: number) {
+
+    this.activeSessions = this.activeSessions.filter(session => session.id !== sessionId);
+
+  }
+  goBack() {
+    history.back(); 
   }
 
-  generateNewCodes() {
-    // Logic to generate new backup codes
-  }
-
-  revokeSession(sessionId: number) {
-    // Logic to revoke session
-  }
 }

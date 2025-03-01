@@ -6,13 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./sign-in-preferences.component.scss']
 })
 export class SignInPreferencesComponent {
+  methodStatus: string = 'inactive'; 
   rememberDevices: boolean = true;
 
   enableMobileOTP() {
     // Logic to enable mobile OTP
+    this.methodStatus = this.methodStatus === 'inactive' ? 'active' : 'inactive';
+
   }
 
   toggleRememberDevices() {
     this.rememberDevices = !this.rememberDevices;
   }
+
+  goBack() {
+    history.back(); 
+  }
+
 }

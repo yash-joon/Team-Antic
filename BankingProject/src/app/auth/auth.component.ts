@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 // import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -27,11 +27,14 @@ export class AuthComponent {
     this.authForm.reset();
     console.log(this.isLogin)
   }
-
+  get username(): FormControl {
+    return this.authForm.get("username") as FormControl
+  }
   submit() {
+    this.username
     // this.errorMessage = '';
     // const { username, password } = this.authForm.value;
-
+    
     // if (this.isLogin) {
     //   this.authService.login(username, password).subscribe(response => {
     //     if (response.requires2FA) {

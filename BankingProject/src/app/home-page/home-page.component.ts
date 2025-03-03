@@ -1,16 +1,67 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterContentInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ScheduledOutData, ReserveData, SavingsData } from '../../assets/data/dummyData.interface';
 
+@Injectable({
+  providedIn: 'root',
+})
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
+
 export class HomePageComponent implements OnInit {
-  constructor() {
-    this.calculateDailyBalance();
+  constructor(private http: HttpClient) {
+    
+  }
+
+  sortTime<T extends { date: string | number }>(data: T[]): T[] {
+    return data.sort((a, b) => {
+      const date1 = new Date(a.date).getTime();
+      const date2 = new Date(b.date).getTime();
+      return date2 - date1;
+    });
+  }
+
+  getData() {
+    this.http.get('assets/data/dummyData.json').subscribe((data : any) => {
+      this.scheduledOutData = this.sortTime(data["scheduledOutData"]);
+      this.reserveData = this.sortTime(data["reserveData"]);
+      this.savingsData = this.sortTime(data["savingsData"]);
+      // this.scheduledOutData = data["scheduledOutData"];
+      // this.reserveData = data["reserveData"];
+      // this.savingsData = data["savingsData"];
+
+      // Transforms json data to chart data
+      this.calculateDailyBalance();
+      
+    // Calculates total scheduledOut cost from data
+    this.scheduledOutAmount = Number(
+      this.scheduledOutData.reduce((total, val) => total + parseFloat(val.cost), 0.00).toFixed(2)
+    );
+
+    // // Calculates total reserve from data
+    this.reserveAmount = Number(
+      this.reserveData.reduce((total, val) => total + parseFloat(val.amount), 0.00).toFixed(2)
+    )
+
+    // // Calculates total savings from data
+    this.savingsAmount = Number(
+      this.savingsData.reduce((total, val) => total + parseFloat(val.amount), 0.00).toFixed(2)
+    );
+    
+    // // Calculates total money in bank account
+    this.totalAmount = this.scheduledOutAmount + this.reserveAmount + this.savingsAmount;
+
+    // // Calculate percentages
+    this.scheduledOutPercentage = (this.scheduledOutAmount / this.totalAmount) * 100;
+    this.reservePercentage = (this.reserveAmount / this.totalAmount) * 100;
+    this.savingsPercentage = (this.savingsAmount / this.totalAmount) * 100;
+    });
   }
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
@@ -21,8 +72,8 @@ export class HomePageComponent implements OnInit {
       {
         label: 'Daily Balance',
         data: [],
-        borderColor: 'blue',
-        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+        borderColor: '#2b6777',
+        backgroundColor: '#52ab98',
         fill: true
       }
     ]
@@ -51,452 +102,122 @@ export class HomePageComponent implements OnInit {
   // Line chart type
   lineChartType: ChartType = 'line';
 
+  // calculateDailyBalance() {
+  //   const balanceByDate: { [key: string]: number } = {};
+
+  //   // Add reserve amounts
+  //   this.reserveData.forEach(entry => {
+  //     const date = entry.date;
+  //     const amount = parseFloat(entry.amount);
+  //     balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+  //   });
+
+  //   // Add savings amounts
+  //   this.savingsData.forEach(entry => {
+  //     const date = entry.date;
+  //     const amount = parseFloat(entry.amount);
+  //     balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+  //   });
+
+  //   // Subtract scheduled out amounts
+  //   this.scheduledOutData.forEach(entry => {
+  //     const date = entry.date;
+  //     const cost = parseFloat(entry.cost);
+  //     balanceByDate[date] = (balanceByDate[date] || 0) - cost;
+  //   });
+
+  //   // Sort dates and calculate cumulative balance
+  //   const sortedDates = Object.keys(balanceByDate).sort();
+  //   let cumulativeBalance = 0;
+  //   const balances: number[] = [];
+
+  //   sortedDates.forEach(date => {
+  //     cumulativeBalance += balanceByDate[date];
+  //     balances.push(cumulativeBalance);
+  //   });
+
+  //   // Update chart data
+  //   console.log(sortedDates)
+  //   console.log(balances);
+  //   this.lineChartData.labels = sortedDates;
+  //   this.lineChartData.datasets[0].data = balances;
+
+  //   this.chart?.update();
+  // }
+
   calculateDailyBalance() {
     const balanceByDate: { [key: string]: number } = {};
 
+    // Helper function to parse and normalize date
+    const parseDate = (dateStr: string): Date => {
+        const [month, day, year] = dateStr.split('/').map(Number);
+        return new Date(year, month - 1, day); // Months are 0-based in JS Dates
+    };
+
+    // Helper function to get the first day of the next month
+    const getFirstDayOfNextMonth = (date: Date): Date => {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    };
+
     // Add reserve amounts
     this.reserveData.forEach(entry => {
-      const date = entry.date;
-      const amount = parseFloat(entry.amount);
-      balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+        const date = entry.date;
+        const amount = parseFloat(entry.amount);
+        balanceByDate[date] = (balanceByDate[date] || 0) + amount;
     });
 
     // Add savings amounts
     this.savingsData.forEach(entry => {
-      const date = entry.date;
-      const amount = parseFloat(entry.amount);
-      balanceByDate[date] = (balanceByDate[date] || 0) + amount;
+        const date = entry.date;
+        const amount = parseFloat(entry.amount);
+        balanceByDate[date] = (balanceByDate[date] || 0) + amount;
     });
 
-    // Subtract scheduled out amounts
+    // Aggregate scheduled out amounts and apply them on the first day of the next month
+    const scheduledOutAggregated: { [key: string]: number } = {};
     this.scheduledOutData.forEach(entry => {
-      const date = entry.date;
-      const cost = parseFloat(entry.cost);
-      balanceByDate[date] = (balanceByDate[date] || 0) - cost;
+        const date = parseDate(entry.date);
+        const nextMonthDate = getFirstDayOfNextMonth(date);
+        const nextMonthDateStr = `${nextMonthDate.getMonth() + 1}/${nextMonthDate.getDate()}/${nextMonthDate.getFullYear()}`;
+        const cost = parseFloat(entry.cost);
+        scheduledOutAggregated[nextMonthDateStr] = (scheduledOutAggregated[nextMonthDateStr] || 0) + cost;
     });
 
-    // Sort dates and calculate cumulative balance
-    const sortedDates = Object.keys(balanceByDate).sort();
+    // Subtract aggregated scheduled out amounts
+    Object.keys(scheduledOutAggregated).forEach(date => {
+        balanceByDate[date] = (balanceByDate[date] || 0) - scheduledOutAggregated[date];
+    });
+
+    // Sort dates correctly
+    const sortedDates = Object.keys(balanceByDate)
+        .map(dateStr => ({ dateStr, dateObj: parseDate(dateStr) }))
+        .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
+        .map(entry => entry.dateStr); // Convert back to string format
+
     let cumulativeBalance = 0;
     const balances: number[] = [];
 
     sortedDates.forEach(date => {
-      cumulativeBalance += balanceByDate[date];
-      balances.push(cumulativeBalance);
+        cumulativeBalance += balanceByDate[date];
+        balances.push(cumulativeBalance);
     });
 
     // Update chart data
+    console.log(sortedDates);
     this.lineChartData.labels = sortedDates;
     this.lineChartData.datasets[0].data = balances;
-  }
 
-  // Dummy data for scheduled out
-  scheduledOutData = [
-    {
-      "transactionId": "TX1001",
-      "date": "2/19/25",
-      "service": "Walmart",
-      "category": "Groceries",
-      "cost": "1400.04",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "Walmart Supercenter",
-        "address": "123 Main St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Monthly grocery shopping"
-    },
-    {
-      "transactionId": "TX1002",
-      "date": "2/19/25",
-      "service": "Chipotle",
-      "category": "Dining",
-      "cost": "13.02",
-      "paymentMethod": "Debit Card",
-      "location": {
-        "storeName": "Chipotle Mexican Grill",
-        "address": "456 Elm St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Lunch with friends"
-    },
-    {
-      "transactionId": "TX1003",
-      "date": "2/20/25",
-      "service": "AMC Movie Theater",
-      "category": "Entertainment",
-      "cost": "37.22",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "AMC Springfield 12",
-        "address": "789 Oak St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Movie night"
-    },
-    {
-      "transactionId": "TX1004",
-      "date": "2/21/25",
-      "service": "McDonalds",
-      "category": "Dining",
-      "cost": "25.84",
-      "paymentMethod": "Debit Card",
-      "location": {
-        "storeName": "McDonald's",
-        "address": "101 Pine St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Quick dinner"
-    },
-    {
-      "transactionId": "TX1005",
-      "date": "2/23/25",
-      "service": "Costco Gas",
-      "category": "Transportation",
-      "cost": "320.12",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "Costco Gas Station",
-        "address": "202 Maple St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Weekly gas fill-up"
-    },
-    {
-      "transactionId": "TX1006",
-      "date": "2/23/25",
-      "service": "ShareTea",
-      "category": "Dining",
-      "cost": "38.91",
-      "paymentMethod": "Debit Card",
-      "location": {
-        "storeName": "ShareTea",
-        "address": "303 Birch St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Bubble tea with colleagues"
-    },
-    {
-      "transactionId": "TX1007",
-      "date": "2/23/25",
-      "service": "Ice Skating",
-      "category": "Entertainment",
-      "cost": "190.24",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "Springfield Ice Arena",
-        "address": "404 Cedar St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Weekend activity"
-    },
-    {
-      "transactionId": "TX1008",
-      "date": "2/24/25",
-      "service": "Steam",
-      "category": "Entertainment",
-      "cost": "69.99",
-      "paymentMethod": "PayPal",
-      "location": {
-        "storeName": "Steam Online Store",
-        "address": "Online",
-        "latitude": null,
-        "longitude": null
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Game purchase"
-    },
-    {
-      "transactionId": "TX1009",
-      "date": "2/24/25",
-      "service": "Subway",
-      "category": "Dining",
-      "cost": "1200.89",
-      "paymentMethod": "Debit Card",
-      "location": {
-        "storeName": "Subway",
-        "address": "505 Walnut St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Quick lunch"
-    },
-    {
-      "transactionId": "TX1010",
-      "date": "2/24/25",
-      "service": "Groceries",
-      "category": "Groceries",
-      "cost": "12.89",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "Local Grocery Store",
-        "address": "606 Spruce St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Quick grocery run"
-    },
-    {
-      "transactionId": "TX1011",
-      "date": "2/24/25",
-      "service": "Netflix Subscription",
-      "category": "Subscriptions",
-      "cost": "9.99",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "Netflix Online",
-        "address": "Online",
-        "latitude": null,
-        "longitude": null
-      },
-      "status": "Scheduled",
-      "recurring": true,
-      "notes": "Monthly subscription"
-    },
-    {
-      "transactionId": "TX1012",
-      "date": "2/24/25",
-      "service": "Spotify Subscription",
-      "category": "Subscriptions",
-      "cost": "9.99",
-      "paymentMethod": "Credit Card",
-      "location": {
-        "storeName": "Spotify Online",
-        "address": "Online",
-        "latitude": null,
-        "longitude": null
-      },
-      "status": "Scheduled",
-      "recurring": true,
-      "notes": "Monthly subscription"
-    },
-    {
-      "transactionId": "TX1013",
-      "date": "2/24/25",
-      "service": "Pizza",
-      "category": "Dining",
-      "cost": "13.19",
-      "paymentMethod": "Debit Card",
-      "location": {
-        "storeName": "Local Pizza Place",
-        "address": "707 Cherry St, Springfield, IL",
-        "latitude": 39.781721,
-        "longitude": -89.650148
-      },
-      "status": "Scheduled",
-      "recurring": false,
-      "notes": "Dinner with family"
-    }
-  ]
-
-  // Dummy data for reserve
-  reserveData = [
-    {
-      "reserveId": "RS1001",
-      "date": "2/19/25",
-      "source": "Salary",
-      "category": "Income",
-      "amount": "3000.00",
-      "paymentMethod": "Direct Deposit",
-      "status": "Received",
-      "notes": "Monthly salary from employer"
-    },
-    {
-      "reserveId": "RS1002",
-      "date": "2/20/25",
-      "source": "Freelance Work",
-      "category": "Income",
-      "amount": "500.00",
-      "paymentMethod": "PayPal",
-      "status": "Received",
-      "notes": "Payment for freelance project"
-    },
-    {
-      "reserveId": "RS1003",
-      "date": "2/21/25",
-      "source": "Tax Refund",
-      "category": "Refund",
-      "amount": "1200.00",
-      "paymentMethod": "Bank Transfer",
-      "status": "Pending",
-      "notes": "Federal tax refund"
-    },
-    {
-      "reserveId": "RS1004",
-      "date": "2/22/25",
-      "source": "Dividends",
-      "category": "Investment",
-      "amount": "150.00",
-      "paymentMethod": "Direct Deposit",
-      "status": "Received",
-      "notes": "Quarterly dividends from stocks"
-    },
-    {
-      "reserveId": "RS1005",
-      "date": "2/23/25",
-      "source": "Gift",
-      "category": "Other",
-      "amount": "100.00",
-      "paymentMethod": "Cash",
-      "status": "Received",
-      "notes": "Birthday gift from family"
-    },
-    {
-      "reserveId": "RS1006",
-      "date": "2/24/25",
-      "source": "Rental Income",
-      "category": "Income",
-      "amount": "800.00",
-      "paymentMethod": "Bank Transfer",
-      "status": "Received",
-      "notes": "Monthly rent from tenant"
-    },
-    {
-      "reserveId": "RS1007",
-      "date": "2/25/25",
-      "source": "Side Business",
-      "category": "Income",
-      "amount": "300.00",
-      "paymentMethod": "Cash",
-      "status": "Pending",
-      "notes": "Earnings from side business"
-    },
-    {
-      "reserveId": "RS1008",
-      "date": "2/26/25",
-      "source": "Interest",
-      "category": "Investment",
-      "amount": "50.00",
-      "paymentMethod": "Direct Deposit",
-      "status": "Received",
-      "notes": "Monthly interest from savings account"
-    },
-    {
-      "reserveId": "RS1009",
-      "date": "2/27/25",
-      "source": "Bonus",
-      "category": "Income",
-      "amount": "1000.00",
-      "paymentMethod": "Direct Deposit",
-      "status": "Received",
-      "notes": "Annual performance bonus"
-    },
-    {
-      "reserveId": "RS1010",
-      "date": "2/28/25",
-      "source": "Reimbursement",
-      "category": "Refund",
-      "amount": "75.00",
-      "paymentMethod": "Bank Transfer",
-      "status": "Pending",
-      "notes": "Travel expense reimbursement"
-    },
-    {
-      "reserveId": "RS1011",
-      "date": "2/28/25",
-      "source": "Venmo from Friend",
-      "category": "Other",
-      "amount": "50.00",
-      "paymentMethod": "Venmo",
-      "status": "Received",
-      "notes": "Reimbursement for dinner"
-    },
-    {
-      "reserveId": "RS1012",
-      "date": "2/28/25",
-      "source": "Zelle from Friend",
-      "category": "Other",
-      "amount": "30.00",
-      "paymentMethod": "Zelle",
-      "status": "Received",
-      "notes": "Shared Uber ride cost"
-    },
-    {
-      "reserveId": "RS1013",
-      "date": "2/28/25",
-      "source": "Venmo from Friend",
-      "category": "Other",
-      "amount": "20.00",
-      "paymentMethod": "Venmo",
-      "status": "Received",
-      "notes": "Split cost for concert tickets"
-    },
-    {
-      "reserveId": "RS1014",
-      "date": "2/28/25",
-      "source": "Zelle from Friend",
-      "category": "Other",
-      "amount": "15.00",
-      "paymentMethod": "Zelle",
-      "status": "Pending",
-      "notes": "Reimbursement for coffee"
-    }
-  ]
-
-  // Dummy data for savings
-  savingsData = [
-    {
-      "savingsId": "SV1001",
-      "date": "2/19/25",
-      "description": "Emergency Fund",
-      "category": "Savings",
-      "amount": "500.00",
-      "paymentMethod": "Bank Transfer",
-      "status": "Completed",
-      "notes": "Monthly contribution to emergency fund"
-    },
-    {
-      "savingsId": "SV1002",
-      "date": "2/20/25",
-      "description": "Vacation Savings",
-      "category": "Savings",
-      "amount": "200.00",
-      "paymentMethod": "Bank Transfer",
-      "status": "Completed",
-      "notes": "Saving for summer vacation"
-    },
-    {
-      "savingsId": "SV1003",
-      "date": "2/21/25",
-      "description": "Retirement Fund",
-      "category": "Savings",
-      "amount": "300.00",
-      "paymentMethod": "Bank Transfer",
-      "status": "Completed",
-      "notes": "Monthly retirement savings"
-    }
-  ]
+    this.chart?.update();
+}
+  
+  scheduledOutData: ScheduledOutData[] = [];
+  reserveData: ReserveData[] = [];
+  savingsData: SavingsData[] = [];
 
   scheduledOutDate : string = "February 25, 2025"
-  scheduledOutAmount : number = 0.00;
+  scheduledOutAmount : number = 0;
   reserveAmount : number = 0;
-  savingsAmount : number = 0.00;
+  savingsAmount : number = 0;
 
   totalAmount : number = 0;
   scheduledOutPercentage : number = 0;
@@ -508,32 +229,7 @@ export class HomePageComponent implements OnInit {
     this.currentTableMode = mode;
   }
   ngOnInit(): void {
-    // this.http.get('assets/dummyData.json').subscribe((data) => {
-    //   this.scheduledOutData = data
-    //   console.log(data);
-    // });
-
-    // Calculates total scheduledOut cost from data
-    this.scheduledOutAmount = Number(
-      this.scheduledOutData.reduce((total, val) => total + parseFloat(val.cost), 0.00).toFixed(2)
-    );
-
-    // Calculates total reserve from data
-    this.reserveAmount = Number(
-      this.reserveData.reduce((total, val) => total + parseFloat(val.amount), 0.00).toFixed(2)
-    )
-
-    // Calculates total savings from data
-    this.savingsAmount = Number(
-      this.savingsData.reduce((total, val) => total + parseFloat(val.amount), 0.00).toFixed(2)
-    );
-    
-    // Calculates total money in bank account
-    this.totalAmount = this.scheduledOutAmount + this.reserveAmount + this.savingsAmount;
-
-    // Calculate percentages
-    this.scheduledOutPercentage = (this.scheduledOutAmount / this.totalAmount) * 100;
-    this.reservePercentage = (this.reserveAmount / this.totalAmount) * 100;
-    this.savingsPercentage = (this.savingsAmount / this.totalAmount) * 100;
+    // Retrieve data
+    this.getData();
   }
 }

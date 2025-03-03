@@ -22,12 +22,13 @@ export class StoreLocatorComponent implements OnInit {
     this.loadGoogleMapsAPI();
   }
 
+
   loadGoogleMapsAPI(): void {
-    if (typeof google !== 'undefined') {
+    if (typeof google !== 'undefined' && google.maps) {
       this.initMap();
     } else {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBfnhqRKEFx2_3aA26vA4FiFx0Q_eRJaWY&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBfnhqRKEFx2_3aA26vA4FiFx0Q_eRJaWY`;
       script.defer = true;
       script.async = true;
       document.head.appendChild(script);

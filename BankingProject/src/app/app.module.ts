@@ -16,6 +16,9 @@ import { AuthComponent } from './auth/auth.component';
 import { StoreLocatorComponent } from './store-locator/store-locator.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { BaseChartDirective } from 'ng2-charts';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,16 +30,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PersonalDetailsComponent,
     SignInPreferencesComponent,
     AuthComponent,
-    StoreLocatorComponent
+    StoreLocatorComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RewardsPageModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule,  
+    HttpClientModule,
+    BaseChartDirective,     
   ],
-  providers: [],
+  providers: [provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

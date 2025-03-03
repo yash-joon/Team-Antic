@@ -22,6 +22,10 @@
     flex-direction: column;
     gap: 0.5rem;
 
+    .fullName{
+      width: 9rem;
+    }
+
     .verified-email {
       position: relative;
 
@@ -39,7 +43,7 @@
     }
   }
 
-  .phone-input {
+  input {
     display: flex;
     gap: 0.5rem;
 

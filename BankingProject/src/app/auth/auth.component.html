@@ -1,24 +1,24 @@
 <div class="auth-container">
-    <h2>{{ isLogin ? 'Login' : 'Register' }}</h2>
-    <form>
-      <label for="username">Username:</label>
-      <input id="username" formControlName="username" required>
-      
-      <label for="password">Password:</label>
-      <input id="password" type="password" formControlName="password" required>
-      
-      <div *ngIf="showOTP">
-        <label for="otp">Enter OTP:</label>
-        <input id="otp" formControlName="otp" required>
-        <button type="button">Verify OTP</button>
-      </div>
-      
-      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-      
-      <button type="submit">{{ isLogin ? 'Log In' : 'Register' }}</button>
-    </form>
+  <h2>{{ isLogin ? 'Login' : 'Register' }}</h2>
+  <form [formGroup]="authForm">
+    <label for="username">Username:</label>
+    <input id="username" formControlName="username" required>
     
-    <p (click)="toggleMode()" style="cursor: pointer; color: blue; text-decoration: underline;">
-      {{ isLogin ? 'Don\'t have an account? Register' : 'Already have an account? Login' }}
-    </p>
-  </div>
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password" required>
+    
+    <div *ngIf="showOTP">
+      <label for="otp">Enter OTP:</label>
+      <input id="otp" formControlName="otp" required>
+      <button type="button">Verify OTP</button>
+    </div>
+    
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    
+    <button type="submit">{{ isLogin ? 'Log In' : 'Register' }}</button>
+  </form>
+  
+  <p (click)="toggleMode()" style="cursor: pointer; color: blue; text-decoration: underline;">
+    {{ isLogin ? 'Don\'t have an account? Register' : 'Already have an account? Login' }}
+  </p>
+</div>

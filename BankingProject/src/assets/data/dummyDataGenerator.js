@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // vvvvvvvvvvvvvvvv CHANGE THESE VALUES vvvvvvvvvvvvvvvv
 var numEntries = 200;
+var variance = 8; // cost = cost * variance
 var earliestDate = new Date(2024, 1, 25); // Year, Month(0-11), Day(1-31)
 var latestDate = new Date(2025, 1, 25); // Year, Month(0-11), Day(1-31)
 // ^^^^^^^^^^^^^^^^ CHANGE THESE VALUES ^^^^^^^^^^^^^^^^
@@ -11,9 +12,18 @@ function getRandomDate(start, end) {
     var date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     return "".concat(date.getMonth() + 1, "/").concat(date.getDate(), "/").concat(date.getFullYear());
 }
-// Helper function to generate a random cost or amount
-function getRandomCostOrAmount(min, max) {
-    return (Math.random() * (max - min) + min).toFixed(2);
+function getRandomCostOrAmount(min, max, variance) {
+    // Ensure variance is within the valid range (1 to 10)
+    variance = Math.max(1, Math.min(10, variance));
+    // Map variance to a scaling factor (e.g., 0% to 50%)
+    var maxScalingFactor = 0.5; // 50% for variance = 10
+    var scalingFactor = (variance - 1) / 9 * maxScalingFactor; // Linearly map 1–10 to 0–0.5
+    // Generate a random value within the range [min, max]
+    var baseValue = Math.random() * (max - min) + min;
+    // Adjust the value based on the scaling factor
+    var adjustedValue = baseValue * (1 + (Math.random() * 2 - 1) * scalingFactor);
+    // Round to 2 decimal places and return as a string
+    return adjustedValue.toFixed(2);
 }
 // Helper function to generate a random latitude/longitude
 function getRandomLatLong() {
@@ -70,7 +80,7 @@ function generateScheduledOutData(transactionId) {
         date: getRandomDate(earliestDate, latestDate),
         service: service,
         category: category,
-        cost: getRandomCostOrAmount(5, 2000),
+        cost: getRandomCostOrAmount(5, 1000 * Math.random() * 2, variance),
         paymentMethod: paymentMethod,
         location: {
             storeName: service,
@@ -130,7 +140,7 @@ function generateReserveData(reserveId) {
         date: getRandomDate(earliestDate, latestDate),
         source: source,
         category: category,
-        amount: getRandomCostOrAmount(5, 2000),
+        amount: getRandomCostOrAmount(5, 2000, variance),
         paymentMethod: paymentMethod,
         status: status,
         notes: "Cash in from ".concat(source)
@@ -166,7 +176,7 @@ function generateSavingsData(savingsId) {
         date: getRandomDate(earliestDate, latestDate),
         description: description,
         category: category,
-        amount: getRandomCostOrAmount(5, 2000),
+        amount: getRandomCostOrAmount(5, 100, 2),
         paymentMethod: paymentMethod,
         status: status,
         notes: "Cash in from ".concat(description)

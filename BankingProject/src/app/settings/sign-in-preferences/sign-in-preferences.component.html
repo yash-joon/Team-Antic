@@ -1,4 +1,5 @@
 <div class="settings-page">
+    <button (click)="goBack()">Back</button>  
     <div class="signin-section">
       <h2>🔑 Sign-in Methods</h2>
       
@@ -15,10 +16,14 @@
         <div class="method-header">
           <span class="method-icon">📱</span>
           <h3>Mobile OTP</h3>
-          <div class="method-status inactive">Inactive</div>
+          <div class="method-status" [ngClass]="methodStatus">
+            {{ methodStatus === 'active' ? 'Active' : 'Inactive' }}
+          </div>
         </div>
         <p>Receive one-time passwords via SMS</p>
-        <button class="btn-enable">Enable</button>
+        <button class="btn-enable" (click)="enableMobileOTP()">
+          {{methodStatus === 'active' ? 'disable' : 'enable' }}
+        </button>
       </div>
   
       <div class="preference-item">

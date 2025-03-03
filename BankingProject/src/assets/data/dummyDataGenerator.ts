@@ -3,7 +3,7 @@ import { ScheduledOutData, ReserveData, SavingsData } from "./dummyData.interfac
 
 // vvvvvvvvvvvvvvvv CHANGE THESE VALUES vvvvvvvvvvvvvvvv
 const numEntries = 200;
-const variance = 5; // cost = cost * variance
+const variance = 8; // cost = cost * variance
 const earliestDate : Date = new Date(2024, 1, 25); // Year, Month(0-11), Day(1-31)
 const latestDate : Date = new Date(2025, 1, 25); // Year, Month(0-11), Day(1-31)
 
@@ -19,9 +19,22 @@ function getRandomDate(start: Date, end: Date): string {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
 
-// Helper function to generate a random cost or amount
-function getRandomCostOrAmount(min: number, max: number): string {
-    return (variance*Math.random() * (max - min) + min).toFixed(2);
+function getRandomCostOrAmount(min: number, max: number, variance: number): string {
+    // Ensure variance is within the valid range (1 to 10)
+    variance = Math.max(1, Math.min(10, variance));
+
+    // Map variance to a scaling factor (e.g., 0% to 50%)
+    const maxScalingFactor = 0.5; // 50% for variance = 10
+    const scalingFactor = (variance - 1) / 9 * maxScalingFactor; // Linearly map 1–10 to 0–0.5
+
+    // Generate a random value within the range [min, max]
+    const baseValue = Math.random() * (max - min) + min;
+
+    // Adjust the value based on the scaling factor
+    const adjustedValue = baseValue * (1 + (Math.random() * 2 - 1) * scalingFactor);
+
+    // Round to 2 decimal places and return as a string
+    return adjustedValue.toFixed(2);
 }
 
 // Helper function to generate a random latitude/longitude
@@ -84,7 +97,7 @@ function generateScheduledOutData(transactionId: string): ScheduledOutData {
         date: getRandomDate(earliestDate, latestDate),
         service,
         category,
-        cost: getRandomCostOrAmount(5, 2000),
+        cost: getRandomCostOrAmount(5, 1000*Math.random()*2, variance),
         paymentMethod,
         location: {
             storeName: service,
@@ -151,7 +164,7 @@ function generateReserveData(reserveId: string): ReserveData {
         date: getRandomDate(earliestDate, latestDate),
         source,
         category,
-        amount: getRandomCostOrAmount(5, 2000),
+        amount: getRandomCostOrAmount(5, 2000, variance),
         paymentMethod,
         status,
         notes: `Cash in from ${source}`
@@ -191,7 +204,7 @@ function generateSavingsData(savingsId: string): SavingsData {
         date: getRandomDate(earliestDate, latestDate),
         description,
         category,
-        amount: getRandomCostOrAmount(5, 2000),
+        amount: getRandomCostOrAmount(5, 100, 2),
         paymentMethod,
         status,
         notes: `Cash in from ${description}`

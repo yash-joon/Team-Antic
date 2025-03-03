@@ -18,30 +18,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    NavbarComponent,
-    SettingsComponent,
-    SecurityComponent,
-    PersonalDetailsComponent,
-    SignInPreferencesComponent,
-    AuthComponent,
-    StoreLocatorComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RewardsPageModule,
-    FormsModule,
-    ReactiveFormsModule,  
-    HttpClientModule,
-    BaseChartDirective,     
-  ],
-  providers: [provideCharts(withDefaultRegisterables())],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomePageComponent,
+        NavbarComponent,
+        SettingsComponent,
+        SecurityComponent,
+        PersonalDetailsComponent,
+        SignInPreferencesComponent,
+        AuthComponent,
+        StoreLocatorComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        RewardsPageModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BaseChartDirective], providers: [provideCharts(withDefaultRegisterables()), provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

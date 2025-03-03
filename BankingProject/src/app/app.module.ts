@@ -14,32 +14,27 @@ import { PersonalDetailsComponent } from './settings/personal-details/personal-d
 import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
 import { AuthComponent } from './auth/auth.component';
 import { StoreLocatorComponent } from './store-locator/store-locator.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    NavbarComponent,
-    SettingsComponent,
-    SecurityComponent,
-    PersonalDetailsComponent,
-    SignInPreferencesComponent,
-    AuthComponent,
-    StoreLocatorComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RewardsPageModule,
-    FormsModule,
-    BaseChartDirective,
-    HttpClientModule
-  ],
-  providers: [provideCharts(withDefaultRegisterables())],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomePageComponent,
+        NavbarComponent,
+        SettingsComponent,
+        SecurityComponent,
+        PersonalDetailsComponent,
+        SignInPreferencesComponent,
+        AuthComponent,
+        StoreLocatorComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        RewardsPageModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BaseChartDirective], providers: [provideCharts(withDefaultRegisterables()), provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

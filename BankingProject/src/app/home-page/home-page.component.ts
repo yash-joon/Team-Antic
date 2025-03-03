@@ -4,6 +4,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ScheduledOutData, ReserveData, SavingsData } from '../../assets/data/dummyData.interface';
+import zoomPlugin from 'chartjs-plugin-zoom';
+
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,11 @@ import { ScheduledOutData, ReserveData, SavingsData } from '../../assets/data/du
 export class HomePageComponent implements OnInit {
   constructor(private http: HttpClient) {
     
+  }
+
+  ngOnInit(): void {
+    // Retrieve data
+    this.getData();
   }
 
   sortTime<T extends { date: string | number }>(data: T[]): T[] {
@@ -384,8 +391,5 @@ export class HomePageComponent implements OnInit {
     this.currentTableMode = mode;
   }
 
-  ngOnInit(): void {
-    // Retrieve data
-    this.getData();
-  }
+
 }

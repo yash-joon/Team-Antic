@@ -20,7 +20,11 @@ import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({ declarations: [
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+@NgModule({
+    declarations: [
         AppComponent,
         HomePageComponent,
         NavbarComponent,
@@ -31,10 +35,17 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
         AuthComponent,
         StoreLocatorComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent], 
+    imports: [BrowserModule,
         AppRoutingModule,
         RewardsPageModule,
         FormsModule,
         ReactiveFormsModule,
-        BaseChartDirective], providers: [provideCharts(withDefaultRegisterables()), provideHttpClient(withInterceptorsFromDi())] })
+        BaseChartDirective,
+        BrowserAnimationsModule,
+        MatExpansionModule],
+    providers: [
+        provideCharts(withDefaultRegisterables()),
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

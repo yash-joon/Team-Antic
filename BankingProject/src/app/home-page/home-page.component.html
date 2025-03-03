@@ -74,56 +74,92 @@
                 Savings List
             </button>
         </div>
-
-        <div class="dataTable" [ngSwitch]="currentTableMode">
-            <table *ngSwitchCase="'scheduledOut'">
-                <th>
-                    Scheduled Out Until {{scheduledOutDate}}
-                </th>
-                <ng-container *ngFor="let item of scheduledOutData">
-                    <tr>
-                        <td>
-                            {{item.date}} - {{item.service}}
-                        </td>
-                        <td>
-                            ${{item.cost}}
-                        </td>
-                    </tr>
-                    
-                </ng-container>
-            </table>
-            <table *ngSwitchCase="'reserve'">
-                <th>
-                    Reserve
-                </th>
-                <ng-container *ngFor="let item of reserveData">
-                    <tr>
-                        <td>
-                            {{item.date}} - {{item.source}}
-                        </td>
-                        <td>
-                            ${{item.amount}}
-                        </td>
-                    </tr>
-                    
-                </ng-container>
-            </table>
-            <table *ngSwitchCase="'savings'">
-                <th>
-                    Savings
-                </th>
-                <ng-container *ngFor="let item of savingsData">
-                    <tr>
-                        <td>
-                            {{item.date}} - {{item.description}}
-                        </td>
-                        <td>
-                            ${{item.amount}}
-                        </td>
-                    </tr>
-                    
-                </ng-container>
-            </table>
+        <div [ngSwitch]="currentTableMode" class = "accordion-table-header">
+            <div *ngSwitchCase="'scheduledOut'">
+                Scheduled Out Until {{scheduledOutDate}}
+            </div>
+            <div *ngSwitchCase="'reserve'">
+                Reserve
+            </div>
+            <div *ngSwitchCase="'savings'">
+                Savings
+            </div>
         </div>
+        <div class="accordion-container">
+            <mat-accordion [multi]="true">
+                <div [ngSwitch]="currentTableMode">
+            
+                <!-- Scheduled Out Section -->
+                <ng-container *ngSwitchCase="'scheduledOut'">
+                    <ng-container *ngFor="let item of scheduledOutData">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="row">
+                                <p>{{ item.date }} - {{ item.service }}</p>
+                                <p>${{ item.cost }}</p>    
+                            </span>
+                        </mat-expansion-panel-header>
+            
+                        <div class="accordion-details">
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            <p><strong>Store Name:</strong> {{ item.location.storeName }}</p>
+                            <p><strong>Address:</strong> {{ item.location.address }}</p>
+                            <p><strong>Payment Method:</strong> {{ item.paymentMethod }}</p>
+                            <p><strong>Status:</strong> {{ item.status }}</p>
+                            <p><strong>Notes:</strong> {{ item.notes }}</p>
+                            <p><strong>Recurring:</strong> {{ item.recurring ? 'Yes' : 'No' }}</p>
+                        
+                        </div>
+                    </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>
+            
+                <!-- Reserve Section -->
+                <ng-container *ngSwitchCase="'reserve'">
+                    <ng-container *ngFor="let item of reserveData">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="row">
+                                <p>{{ item.date }} - {{ item.source }}</p>
+                                <p>${{ item.amount }}</p>    
+                            </span>
+                        </mat-expansion-panel-header>
+            
+                        <div class="accordion-details">
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            <p><strong>Payment Method:</strong> {{ item.paymentMethod }}</p>
+                            <p><strong>Status:</strong> {{ item.status }}</p>
+                            <p><strong>Notes:</strong> {{ item.notes }}</p>
+                        </div>
+                    </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>
+            
+                <!-- Savings Section -->
+                <ng-container *ngSwitchCase="'savings'">
+                    <ng-container *ngFor="let item of savingsData">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="row">
+                                <p>{{ item.date }}</p>
+                                <p>${{ item.amount }}</p>    
+                            </span>
+                        </mat-expansion-panel-header>
+            
+                        <div class="accordion-details">
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            <p><strong>Payment Method:</strong> {{ item.paymentMethod }}</p>
+                            <p><strong>Status:</strong> {{ item.status }}</p>
+                            <p><strong>Notes:</strong> {{ item.notes }}</p>
+                            <p><strong>Description:</strong> {{ item.description }}</p>
+                        </div>
+                    </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>            
+                </div>
+            
+            </mat-accordion>
+        </div>
+          
     </div>
 </div>

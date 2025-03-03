@@ -108,6 +108,7 @@ function generateScheduledOutData(transactionId: string): ScheduledOutData {
         status,
         recurring: Math.random() < 0.2, // 20% chance of being recurring
         notes: `Transaction for ${service}`,
+        pointsEarned:0,
     };
 }
 

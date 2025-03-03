@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { DataService } from '../data.service';
+import { ScheduledOutData } from '../../assets/data/dummyData.interface';
 @Component({
   selector: 'app-rewards-page',
   templateUrl: './rewards-page.component.html',
@@ -8,93 +9,107 @@ import { Component, OnInit } from '@angular/core';
 export class RewardsPageComponent implements OnInit {
 
 
-  // need to pipeline this data instead 
-  scheduledOutData = [
-    {date: "2/19/25", service: "Walmart", cost: 140.04, type:"grocery",pointsEarned:0},
-    {date: "2/19/25", service: "Chipotle", cost: 13.02, type:"dining",pointsEarned:0},
-    {date: "2/20/25", service: "AMC Movie Theater", cost: 37.22, type:"entertainment",pointsEarned:0},
-    {date: "2/21/25", service: "McDonalds", cost: 25.84, type:"dining",pointsEarned:0},
-    {date: "2/23/25", service: "Costco Gas", cost: 32.12, type:"other",pointsEarned:0},
-    {date: "2/23/25", service: "ShareTea", cost: 38.91, type:"dining",pointsEarned:0},
-    {date: "2/23/25", service: "Ice Skating", cost: 19.24, type:"entertainment",pointsEarned:0},
-    {date: "2/24/25", service: "Steam", cost: 69.99, type:"entertainment",pointsEarned:0},
-    {date: "2/24/25", service: "Subway", cost: 12.89, type:"dining",pointsEarned:0},
-    {date: "2/24/25", service: "Groceries", cost: 12.89, type:"grocery",pointsEarned:0},
-    {date: "2/24/25", service: "Netflix Subscription", cost: 9.99, type:"entertainment",pointsEarned:0},
-    {date: "2/24/25", service: "Spotify Subscription", cost: 9.99, type:"entertainment",pointsEarned:0},
-    {date: "2/24/25", service: "Pizza", cost: 13.19, type:"dining",pointsEarned:0},
-    {date: "2/25/25", service: "Airplane", cost: 300.00, type:"travel",pointsEarned:0}
-  ];
+  chartOptions: any = {};
+  scheduledOutData: ScheduledOutData[] = [];
 
+  constructor(private dataService: DataService) {}
 
-  displayHoverInfo():void {
-    console.log(this.scheduledOutData);
+  ngOnInit(): void {
+    this.getTransactions();
+
+  }
+  getTransactions():void{
+    this.dataService.getTransactions().subscribe(
+      (data: ScheduledOutData[]) => {
+        this.scheduledOutData = data.map(item => ({
+          transactionId: item.transactionId,
+          date: item.date,
+          service: item.service,
+          cost:item.cost,
+          category: item.category,
+          paymentMethod: item.paymentMethod, 
+          location: item.location, 
+          status: item.status, 
+          recurring: item.recurring, 
+          notes: item.notes, 
+          pointsEarned: 0,
+        }));
+        this.getPoints();
+        this.createPieChart();
+        
+      }
+    )
+
   }
 
-  // could pipe transform this instead? and do it oninit  
-  totalPoints = 0; 
+  createPieChart():void{
+    this.chartOptions = {
+      series: [this.groceryPoints, this.diningPoints, this.entertainmentPoints, this.travelPoints, this.otherPoints],
+      labels: ["Grocery", "Dining", "Entertainment", "Travel", "Other"],
+      chart: {
+        type: "donut"
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: "75%"
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number) {
+          return val.toFixed(2) + "%";
+        }
+      },
+      legend: {
+        position: "bottom"
+      }
+    }
+  }
+
   groceryPoints = 0; 
   diningPoints = 0; 
   entertainmentPoints = 0; 
   travelPoints = 0; 
   otherPoints = 0; 
-
-  gpercent = 0;
-  dpercent = 0;
-  epercent = 0;
-  tpercent = 0; 
-  opercent = 0;
-
-
-  ngOnInit(): void {
-    this.getPoints();
-    this.getPercents();
-  }
-
-  getPercents():void{
-    this.gpercent = (this.groceryPoints / this.totalPoints) * 100;
-    this.dpercent = (this.diningPoints / this.totalPoints) * 100;
-    this.epercent = (this.entertainmentPoints / this.totalPoints) * 100;
-    this.tpercent = (this.travelPoints / this.totalPoints) * 100;
-    this.opercent = (this.otherPoints / this.totalPoints) * 100;
-  }
-  
-
+  totalPoints = 0;
 
   getPoints():void{
     for(let item of this.scheduledOutData){
-      if(item.type == "grocery"){
-        let num = +(item.cost*.02).toFixed(2);
-        this.totalPoints += num;
+      if(item.category == "Groceries"){
+        let num = +(Number(item.cost)*.02).toFixed(2);
         this.groceryPoints += num;
         item.pointsEarned = num;
-  
-      }else if(item.type == "dining"){
-        let num = +(item.cost*.03).toFixed(2);
         this.totalPoints += num;
+      }else if(item.category == "Dining"){
+        let num = +(Number(item.cost)*.03).toFixed(2);
         this.diningPoints += num;
         item.pointsEarned = num;
-        
-      }else if(item.type == "entertainment"){
-        let num = +(item.cost*.015).toFixed(2);
         this.totalPoints += num;
+      }else if(item.category == "Entertainment"){
+        let num = +(Number(item.cost)*.015).toFixed(2);
         this.entertainmentPoints += num;
         item.pointsEarned = num;
-      
-      }else if(item.type == "travel"){
-        let num = +(item.cost*.04).toFixed(2);
         this.totalPoints += num;
+      }else if(item.category == "Transportation"){
+        let num = +(Number(item.cost)*.04).toFixed(2);
         this.travelPoints += num;
         item.pointsEarned = num;
-  
-      }else{ // other 
-        let num = +(item.cost*.01).toFixed(2);
         this.totalPoints += num;
+      }else{ // other 
+        let num = +(Number(item.cost)*.01).toFixed(2);
         this.otherPoints += num;
         item.pointsEarned = num;
+        this.totalPoints += num;
       }
     }
-
+    this.totalPoints = Number(this.totalPoints.toFixed(2));
+    this.groceryPoints = Number(this.groceryPoints.toFixed(2));
+    this.diningPoints = Number(this.diningPoints.toFixed(2));
+    this.entertainmentPoints = Number(this.entertainmentPoints.toFixed(2));
+    this.travelPoints = Number(this.travelPoints.toFixed(2));
+    this.otherPoints = Number(this.otherPoints.toFixed(2));
   }
 
 }

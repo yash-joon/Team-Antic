@@ -40,53 +40,33 @@ button{
 
 #middleComponents{
     display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+#pointsVisualAndTransactionsContainer{
+    display: flex;
     flex-direction: row;
-    
+    justify-content: space-between;
+    gap: 10rem;
+    margin: 0;
+    padding: 0;
 }
 
 #earningsVisual{
     display: flex;
-    flex-direction: row;
-    box-sizing: border-box;
-    border: white;
-    border-style: solid;
-    height: 2rem;
-    width: 50rem;
-    text-align: center;
+    flex-direction: column;
+    height: auto;
+    width: 100%; 
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
 
-    #diningPortion{
-        box-sizing: border-box;
-        border: yellow;
-        border-style: solid;
-        background-color: yellow;
-    }
-    #purchasesPortion{
-        box-sizing: border-box;
-        border: #c8d8e4;
-        border-style: solid;
-        background-color: #c8d8e4;
-    }
-
-    #otherPortion{
-        box-sizing: border-box;
-        border: greenyellow;
-        border-style: solid;
-        background-color: greenyellow;
-    }
-    #entertainmentPortion{
-        box-sizing: border-box;
-        border: red;
-        border-style: solid;
-        background-color: red;
-    }
-    #travelPortion{
-        box-sizing: border-box;
-        border: pink;
-        border-style: solid;
-        background-color: pink;
-    }
+apx-chart{
+    height: auto;
+    width: 100%; 
 }
 
 #cardAndPointsSection {
@@ -99,5 +79,12 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: center;
+
+}
+
+#transactionsList{
+    max-height:10rem;
+    height: 100%;
+    overflow-y: auto;
+    width: 100%; 
 }

@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RewardsPageComponent } from './rewards-page.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 
 
@@ -11,9 +12,11 @@ import { RewardsPageComponent } from './rewards-page.component';
   ],
   imports: [
     CommonModule,
+    NgApexchartsModule
   ], 
   exports:[
-    RewardsPageComponent
-  ]
+    RewardsPageComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RewardsPageModule { }

@@ -15,7 +15,7 @@ import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-
 import { AuthComponent } from './auth/auth.component';
 import { StoreLocatorComponent } from './store-locator/store-locator.component';
 import { FormsModule } from '@angular/forms';
-import { BaseChartDirective } from 'ng2-charts';
+import { BaseChartDirective} from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 

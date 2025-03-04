@@ -1,43 +1,33 @@
-import { Component,OnInit} from '@angular/core';
+import { Component} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-personal-details',
   templateUrl: './personal-details.component.html',
   styleUrls: ['./personal-details.component.scss']
 })
-export class PersonalDetailsComponent implements OnInit{
-  fullName: string = '';
-  email: string = '';
-  phoneNumber: string = '';
-  selectedCountryCode: string = '+1';
-  countryCodes: string[] = ['+1', '+44', '+86'];
+export class PersonalDetailsComponent{
+  userForm: FormGroup;
+  countryCodes = ['+1', '+44', '+91', '+86']; 
 
-  ngOnInit() {
- 
-    const userData = JSON.parse(sessionStorage.getItem('user') || '{}');
-    
-    this.fullName = userData.fullName || '';
-    this.email = userData.email || '';
-    this.phoneNumber = userData.phoneNumber || '';
-    this.selectedCountryCode = userData.countryCode || '+1';
-
+  constructor(private fb: FormBuilder) {
+    this.userForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+      address: ['', Validators.required],
+      countryCode: ['+1']
+    });
   }
 
   saveChanges() {
-    const updatedUser = {
-      fullName: this.fullName,
-      email: this.email,
-      phoneNumber: this.phoneNumber,
-      countryCode: this.selectedCountryCode
-    };
-
-    sessionStorage.setItem('user', JSON.stringify(updatedUser)); 
-    console.log('User details saved:', updatedUser);
-    alert('Changes saved successfully!');
+    if (this.userForm.valid) {
+      console.log('Saving user details:', this.userForm.value);
+      alert('Profile updated successfully!');
+    }
   }
 
-
   goBack() {
-    history.back(); 
+    history.back();
   }
 }

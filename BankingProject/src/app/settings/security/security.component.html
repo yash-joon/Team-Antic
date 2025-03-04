@@ -1,39 +1,51 @@
 <div class="settings-page">
-    <button (click)="goBack()">Back</button>  
-    <div class="security-section">
-      <h2>🔐 Account Security</h2>
-      <div class="security-item">
-        <div class="item-header">
-          <h3>Password</h3>
-          <button class="btn-edit" (click)="showPasswordForm = !showPasswordForm">Change Password</button>
-        </div>
-        <form class="password-form" *ngIf="showPasswordForm" (ngSubmit)="updatePassword()">
-          <input type="password" placeholder="Current Password" [(ngModel)]="currentPassword" name="currentPassword" required>
-          <input type="password" placeholder="New Password" [(ngModel)]="newPassword" name="newPassword" required>
-          <input type="password" placeholder="Confirm New Password" [(ngModel)]="confirmNewPassword" name="confirmNewPassword" required>
-        
-          <div class="form-actions">
-            <button type="button" class="btn-cancel" (click)="showPasswordForm = false">Cancel</button>
-            <button type="submit" class="btn-save">Update Password</button>
-          </div>
-        </form>        
+  <button (click)="goBack()">Back</button>
+  <div class="security-section">
+    <h2>🔐 Account Security</h2>
+    <div class="security-item">
+      <div class="item-header">
+        <h3>Password</h3>
+        <button class="btn-edit" (click)="showPasswordForm = !showPasswordForm">Change Password</button>
       </div>
+      <form class="password-form" [formGroup]="passwordForm" *ngIf="showPasswordForm" (ngSubmit)="updatePassword()">
 
-  
-      <div class="security-item">
-        <h3>Active Sessions</h3>
-        <div class="session-list">
-          <div class="session-item" *ngFor="let session of activeSessions">
-            <div class="session-info">
-              <div class="device-icon">📱</div>
-              <div class="device">
-               {{ session.device }}
-              </div>
-              <button class="btn-revoke" (click)="revoke(session.id)">Revoke</button>
-            </div>
-          </div>
+        <label>Current password: </label>
+        <input type="password" placeholder="Current Password" formControlName="currentPassword" name="currentPassword"
+          required><br>
+        <div *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched"
+          class="error" [ngStyle]="{'color':'red'}">
+          current password is required
         </div>
-      </div>
+
+        <label>New password: </label>
+        <input type="password" placeholder="New Password" formControlName="newPassword" name="newPassword" required><br>
+
+        <!-- Required error -->
+        <div *ngIf="passwordForm.get('newPassword')?.hasError('required') && passwordForm.get('newPassword')?.touched"
+          class="error" [ngStyle]="{'color':'red'}">
+          New password is required
+        </div>
+
+        <!-- Minimum length error -->
+        <div *ngIf="passwordForm.get('newPassword')?.hasError('minlength') && passwordForm.get('newPassword')?.touched"
+          class="error" [ngStyle]="{'color':'red'}">
+          New password must be at least 10 characters long
+        </div>
+
+
+        <label>Confirm: </label>
+        <input type="password" placeholder="Confirm New Password" formControlName="confirmNewPassword"
+          name="confirmNewPassword" required><br>
+        <div *ngIf="passwordForm.hasError('passwordMismatch')" class="error" [ngStyle]="{'color':'red'}">
+          New password and confirm password do not match!
+        </div>
+
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="showPasswordForm = false">Cancel</button>
+          <button type="submit" class="btn-save">Update Password</button>
+        </div>
+      </form>
     </div>
   </div>
-  
+</div>

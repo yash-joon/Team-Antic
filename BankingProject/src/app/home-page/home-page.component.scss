@@ -64,7 +64,56 @@ h1 {
     justify-content: center;
 }
 
+.accordion-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    text-align: left;
+    padding: 8px;
+    background-color: $dark-green;
+    color: $white;
+}
 
+
+.accordion-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid $gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.scrollable-accordion {
+    max-height: 400px;
+    overflow-y: auto;
+}
+  
+mat-expansion-panel {
+    margin-bottom: 8px;
+    border: 1px solid $gray;
+    border-radius: 5px;
+}
+  
+// mat-expansion-panel-header {
+//     display: flex;
+//     justify-content:space-between;
+//     align-items: center;
+//     width: 100%;
+// }
+
+.row {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    width: 98%;
+}
+.accordion-details {
+    padding: 10px;
+    background-color: $white;
+    border-top: 1px solid $washed-green;
+    min-height: 100px; /* Ensures expanded sections have enough space */
+}
 
 .bar-numbers {
     display: flex;

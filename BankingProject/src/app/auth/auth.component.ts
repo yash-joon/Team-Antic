@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-// import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -15,8 +14,15 @@ export class AuthComponent {
 
   constructor(private fb: FormBuilder) {
     this.authForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,}$') 
+        ]
+      ],
       otp: ['']
     });
   }
@@ -25,46 +31,42 @@ export class AuthComponent {
     this.isLogin = !this.isLogin;
     this.showOTP = false;
     this.authForm.reset();
-    console.log(this.isLogin)
   }
-  get username(): FormControl {
-    return this.authForm.get("username") as FormControl
+
+  get email(): FormControl {
+    return this.authForm.get('email') as FormControl;
   }
+
+  get password(): FormControl {
+    return this.authForm.get('password') as FormControl;
+  }
+
+  get otp(): FormControl {
+    return this.authForm.get('otp') as FormControl;
+  }
+
   submit() {
-    this.username
-    // this.errorMessage = '';
-    // const { username, password } = this.authForm.value;
-    
-    // if (this.isLogin) {
-    //   this.authService.login(username, password).subscribe(response => {
-    //     if (response.requires2FA) {
-    //       this.showOTP = true;
-    //     } else {
-    //       alert('Login successful! Redirecting...');
-    //     }
-    //   }, err => {
-    //     this.errorMessage = err.error.message || 'Login failed';
-    //   });
-    // } else {
-    //   this.authService.register(username, password).subscribe(response => {
-    //     alert('Registration successful! You can now log in.');
-    //     this.toggleMode();
-    //   }, err => {
-    //     this.errorMessage = err.error.message || 'Registration failed';
-    //   });
-    // }
+    if (this.authForm.invalid) {
+      this.errorMessage = 'Please fill in all fields correctly';
+      return;
+    }
+
+    const { email, password } = this.authForm.value;
+
+    if (this.isLogin) {
+      console.log('Logging in with', email, password);
+ 
+    } else {
+      console.log('Registering with', email, password);
+
+    }
   }
 
   verifyOTP() {
-    // const { username, otp } = this.authForm.value;
-    // if (!otp) {
-    //   this.errorMessage = 'OTP is required';
-    //   return;
-    // }
-    // this.authService.verifyOTP(username, otp).subscribe(response => {
-    //   alert('2FA Verified! Redirecting...');
-    // }, err => {
-    //   this.errorMessage = err.error.message || 'Invalid OTP';
-    // });
+    if (!this.otp.value || this.otp.value.length !== 6) {
+      this.errorMessage = 'OTP must be 6 digits';
+      return;
+    }
+    console.log('Verifying OTP:', this.otp.value);
   }
 }

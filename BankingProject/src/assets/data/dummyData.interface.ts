@@ -14,6 +14,7 @@ export interface ScheduledOutData {
     status: string;
     recurring: boolean;
     notes: string;
+    pointsEarned:number;
     // quarter: string;
 }
   

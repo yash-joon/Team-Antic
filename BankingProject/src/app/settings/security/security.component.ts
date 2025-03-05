@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-security',
@@ -7,50 +8,35 @@ import { Component } from '@angular/core';
 })
 export class SecurityComponent {
   showPasswordForm = false;
-  currentPassword: string = '';
-  newPassword: string = '';
-  confirmNewPassword: string = '';
-  is2FAEnabled = false;
-  activeSessions = [
-    { id: 1, device: 'Device 1', location: 'Location 1', lastActive: 'Last Active 1' },
-    { id: 2, device: 'Device 2', location: 'Location 2', lastActive: 'Last Active 2' }
-  ];
 
-  togglePasswordForm() {
-    this.showPasswordForm = !this.showPasswordForm;
+  passwordForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.passwordForm = this.fb.group(
+      {
+        currentPassword: ['', Validators.required],
+        newPassword: ['', [Validators.required, Validators.minLength(10)]],
+        confirmNewPassword: ['', Validators.required]
+      },
+      { validator: this.passwordMatchValidator } 
+    );
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const newPassword = formGroup.get('newPassword')?.value;
+    const confirmNewPassword = formGroup.get('confirmNewPassword')?.value;
+    
+    return newPassword === confirmNewPassword ? null : { passwordMismatch: true };
   }
 
   updatePassword() {
-    
-    if (this.newPassword !== this.confirmNewPassword) {
-      alert('New passwords do not match!');
+    if (this.passwordForm.invalid) {
       return;
     }
 
-    // console.log('Updating password...', {
-    //   current: this.currentPassword,
-    //   new: this.newPassword
-    // });
-
-    // using API to update the password(need to check if the old password is valid,if it is valid then can
-    // update the new password)
-    // this.authService.updatePassword(this.currentPassword, this.newPassword).subscribe(response => { ... });
-
     alert('Password updated successfully!');
   }
-
-  cancelPasswordChange() {
-    this.showPasswordForm = false;
-  }
-
-
-  revoke(sessionId: number) {
-
-    this.activeSessions = this.activeSessions.filter(session => session.id !== sessionId);
-
-  }
   goBack() {
-    history.back(); 
+    history.back();
   }
-
 }

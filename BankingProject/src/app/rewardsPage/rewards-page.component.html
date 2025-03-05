@@ -12,44 +12,41 @@
 </div>
 
 <div id ="middleComponents">
+    <div id ="pointsVisualAndTransactionsContainer">
+        <div id="earningsInformation">
+            <div id="earningsVisual">
+                <h2>Total Point Earnings</h2>
+                <apx-chart 
+                [series]="chartOptions.series" 
+                [chart]="chartOptions.chart"
+                [labels]="chartOptions.labels"
+                [plotOptions]="chartOptions.plotOptions"
+                [dataLabels]="chartOptions.dataLabels"
+                [legend]="chartOptions.legend">
+                </apx-chart>
+            </div>
 
-    <div id="earningsInformation">
-        <h2>Total Point Earnings Q1 2025</h2>
-
-        <div id="earningsVisual">
-            <div *ngIf="diningPoints>0" id="diningPortion" [ngStyle] ="{'width': dpercent +'%'}"
-                (mouseover)="displayHoverInfo()">Dining</div>
-            <div *ngIf="groceryPoints>0" id="purchasesPortion" [ngStyle] ="{'width': gpercent +'%'}"
-                >Grocery</div>
-            <div *ngIf="entertainmentPoints>0" id="entertainmentPortion" [ngStyle] ="{'width': epercent +'%'}"
-                >Entertainment</div>
-            <div *ngIf="travelPoints>0" id = "travelPortion" [ngStyle] ="{'width': tpercent +'%'}"
-                >Travel</div>
-            <div *ngIf="otherPoints>0" id="otherPortion" [ngStyle] ="{'width': opercent +'%'}"
-                >Other</div>
+            <!-- <ul id="rewards-rates">
+                <li>2% on Grocery purchases</li>
+                <li>4% on Travel</li>
+                <li>3% on Dining</li>
+                <li>1.5% on Entertainment</li>
+                <li>1% on other</li>
+            </ul> -->
         </div>
-        
-        <ul id="rewards-rates">
-            <li>2% on Grocery purchases</li>
-            <li>4% on Travel</li>
-            <li>3% on Dining</li>
-            <li>1.5% on Entertainment</li>
-            <li>1% on other</li>
-        </ul>
-    </div>
 
-    <div id="transactions">
-        <h2>Point Transactions</h2>
-        <ul>
-            <li *ngFor="let item of scheduledOutData">
-                {{item.date}} - {{item.service}} + {{item.pointsEarned}}
-            </li>
-            
-        </ul>
+        <div id="transactions">
+            <h2>Point Transactions</h2>
+            <ul id = transactionsList>
+                <li *ngFor="let item of scheduledOutData">
+                    {{item.date}} - {{item.service}} + {{item.pointsEarned}}
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+    
+    <div id = "redeemButtonContainer">
+        <button id ="redeemPoints">Redeem Points</button>
     </div>
 </div>
-
-<div id = "redeemButtonContainer">
-    <button id ="redeemPoints">Redeem Points</button>
-</div>
-

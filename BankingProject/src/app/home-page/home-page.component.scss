@@ -79,7 +79,7 @@ h1 {
 .accordion-container {
     max-height: 500px;
     overflow-y: auto;
-    border: 1px solid #ddd;
+    border: 1px solid $gray;
     border-radius: 5px;
     padding: 10px;
 }
@@ -91,7 +91,7 @@ h1 {
   
 mat-expansion-panel {
     margin-bottom: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid $gray;
     border-radius: 5px;
 }
   
@@ -110,8 +110,8 @@ mat-expansion-panel {
 }
 .accordion-details {
     padding: 10px;
-    background-color: #fafafa;
-    border-top: 1px solid #ddd;
+    background-color: $white;
+    border-top: 1px solid $washed-green;
     min-height: 100px; /* Ensures expanded sections have enough space */
 }
 

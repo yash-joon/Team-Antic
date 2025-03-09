@@ -1,0 +1,17 @@
+#cardAndPointsSection {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+img{
+    height: 10rem;
+    width: auto;
+}
+#pointsInfo{
+    text-align: center;
+    vertical-align: middle;
+    p{
+        font-size: 2rem;
+    }
+}

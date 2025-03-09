@@ -3,13 +3,7 @@
     <h1>Antic Rewards</h1>
 </div>
 
-<div id="cardAndPointsSection">
-    <img src = "assets/CreditCardExample.jpg" alt="Credit Card Example">
-    <div id="pointsInfo">
-        <p>Available points: <span id = "availablePoints">{{totalPoints}}</span></p>
-        
-    </div>
-</div>
+<app-card-and-points-section [totalPoints]="totalPoints"></app-card-and-points-section>
 
 <div id ="middleComponents">
     <div id ="pointsVisualAndTransactionsContainer">

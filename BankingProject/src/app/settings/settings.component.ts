@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class SettingsComponent implements OnInit, OnDestroy{
   username: string = ''; 
-  avatarUrl: string = '/assets/defaultAvatar.jpg'; // URL
+  avatarUrl: string = '/assets/images/defaultAvatar.jpg'; // URL
 
   constructor(private router: Router,private ar:ActivatedRoute) {}
   

@@ -22,6 +22,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { PageFooterComponent } from './page-footer/page-footer.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         SignInPreferencesComponent,
         AuthComponent,
         StoreLocatorComponent,
+        PageFooterComponent,
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,

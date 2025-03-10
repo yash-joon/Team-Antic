@@ -11,12 +11,12 @@ import zoomPlugin from 'chartjs-plugin-zoom';
   providedIn: 'root',
 })
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss',
+  selector: 'app-dashboard-page',
+  templateUrl: './dashboard-page.component.html',
+  styleUrl: './dashboard-page.component.scss',
 })
 
-export class HomePageComponent implements OnInit {
+export class DashboardPageComponent implements OnInit {
   constructor(private http: HttpClient) {
     
   }

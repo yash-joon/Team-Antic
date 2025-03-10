@@ -20,7 +20,6 @@ $white : #ffffff;
     color: $white;
 }
 
-
 .accordion-container {
     max-height: 500px;
     overflow-y: auto;
@@ -53,23 +52,12 @@ mat-expansion-panel {
     align-items: center;
     width: 98%;
 }
+
 .accordion-details {
     padding: 10px;
     background-color: $white;
     border-top: 1px solid $washed-green;
     min-height: 100px; /* Ensures expanded sections have enough space */
-}
-
-.burndown-page {
-    // padding: 1rem;
-    display: block;
-    margin: auto;
-    width: 80%;
-}
-
-.burndown-details {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
 }
 
 .burndown-actions {
@@ -101,6 +89,22 @@ mat-expansion-panel {
             // box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
         }
     }
+}
+
+.burndown-chart {
+    max-height: 400px;
+}
+
+.burndown-details {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.burndown-page {
+    // padding: 1rem;
+    display: block;
+    margin: auto;
+    width: 80%;
 }
 
 .bar-numbers {

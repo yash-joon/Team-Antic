@@ -1,5 +1,5 @@
 <!-- Burndown -->
-<h1> Welcome user.name -  </h1>
+<h1> Welcome user </h1>
 
 <div class="burndown-page">
     <div class="bar-numbers">
@@ -48,12 +48,13 @@
             Make a Payment
         </button>
     </div>
-    <div>
+    <div class="burndown-chart">
         <canvas baseChart
                 [data]="lineChartData"
                 [options]="lineChartOptions"
                 [type]="lineChartType">
         </canvas>
+        <!-- <button (click)="resetZoom()">Reset Zoom</button> -->
     </div>
 
     <div class="burndown-details">

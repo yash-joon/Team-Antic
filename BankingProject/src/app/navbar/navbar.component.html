@@ -5,9 +5,10 @@
         <label>Antic</label> 
         <img src = "assets/images/AnticLogo.png" alt="Company Logo image">
     </a>
-    <a routerLink="/home" routerLinkActive="active" class="nav-tab active"> Home </a>
-    <a routerLink="/settings" class="nav-tab"> Settings </a>
-    <a routerLink="/rewards"  class="nav-tab"> Rewards </a>
-    <a routerLink="/locator"  class="nav-tab"> Store Locator </a>
-    <a routerLink="/auth" class="nav-tab"> Login </a>
+    <a routerLink="/"           routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-tab"> Home </a>
+    <a routerLink="/dashboard"  routerLinkActive="active" class="nav-tab"> Dashboard </a>
+    <a routerLink="/settings"   routerLinkActive="active" class="nav-tab"> Settings </a>
+    <a routerLink="/rewards"    routerLinkActive="active" class="nav-tab"> Rewards </a>
+    <a routerLink="/locator"    routerLinkActive="active" class="nav-tab"> Store Locator </a>
+    <a routerLink="/auth"       routerLinkActive="active" class="nav-tab"> Login </a>
 </div>

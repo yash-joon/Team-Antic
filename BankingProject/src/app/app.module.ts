@@ -25,6 +25,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { PageFooterComponent } from './page-footer/page-footer.component';
 import { HomeComponent } from './home/home.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -47,7 +54,13 @@ import { HomeComponent } from './home/home.component';
         ReactiveFormsModule,
         BaseChartDirective,
         BrowserAnimationsModule,
-        MatExpansionModule],
+        MatExpansionModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule],
     providers: [
         provideCharts(withDefaultRegisterables()),
         provideHttpClient(withInterceptorsFromDi())

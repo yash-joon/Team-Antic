@@ -1,11 +1,12 @@
-import { Component, OnInit, AfterContentInit, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChartConfiguration, ChartType, registerables, Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ScheduledOutData, ReserveData, SavingsData } from '../../assets/data/dummyData.interface';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
+Chart.register(...registerables, zoomPlugin);
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +14,11 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
-  styleUrl: './dashboard-page.component.scss',
+  styleUrls: ['../app.component.scss', './dashboard-page.component.scss']
 })
 
 export class DashboardPageComponent implements OnInit {
-  constructor(private http: HttpClient) {
-    
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     // Retrieve data
@@ -110,6 +109,7 @@ export class DashboardPageComponent implements OnInit {
   // Line chart options
   lineChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       x: {
         title: {
@@ -124,54 +124,31 @@ export class DashboardPageComponent implements OnInit {
         },
         beginAtZero: true
       }
-    }
+    },
+    // plugins: {
+    //   zoom: {
+    //     pan: {
+    //       enabled: true,
+    //       mode: 'x',
+    //     },
+    //     zoom: {
+    //       wheel: {
+    //         enabled: true,
+    //       },
+    //       pinch: {
+    //         enabled: true,
+    //       },
+    //       drag: {
+    //         enabled: true,
+    //       },
+    //       mode: 'xy',
+    //     },
+    //   },
+    // },
   };
 
   // Line chart type
   lineChartType: ChartType = 'line';
-
-  // calculateDailyBalance() {
-  //   const balanceByDate: { [key: string]: number } = {};
-
-  //   // Add reserve amounts
-  //   this.reserveData.forEach(entry => {
-  //     const date = entry.date;
-  //     const amount = parseFloat(entry.amount);
-  //     balanceByDate[date] = (balanceByDate[date] || 0) + amount;
-  //   });
-
-  //   // Add savings amounts
-  //   this.savingsData.forEach(entry => {
-  //     const date = entry.date;
-  //     const amount = parseFloat(entry.amount);
-  //     balanceByDate[date] = (balanceByDate[date] || 0) + amount;
-  //   });
-
-  //   // Subtract scheduled out amounts
-  //   this.scheduledOutData.forEach(entry => {
-  //     const date = entry.date;
-  //     const cost = parseFloat(entry.cost);
-  //     balanceByDate[date] = (balanceByDate[date] || 0) - cost;
-  //   });
-
-  //   // Sort dates and calculate cumulative balance
-  //   const sortedDates = Object.keys(balanceByDate).sort();
-  //   let cumulativeBalance = 0;
-  //   const balances: number[] = [];
-
-  //   sortedDates.forEach(date => {
-  //     cumulativeBalance += balanceByDate[date];
-  //     balances.push(cumulativeBalance);
-  //   });
-
-  //   // Update chart data
-  //   console.log(sortedDates)
-  //   console.log(balances);
-  //   this.lineChartData.labels = sortedDates;
-  //   this.lineChartData.datasets[0].data = balances;
-
-  //   this.chart?.update();
-  // }
 
   calculateDailyBalance() {
     const balanceByDate: { [key: string]: number } = {};
@@ -369,7 +346,11 @@ export class DashboardPageComponent implements OnInit {
 
     // Update the chart
     this.chart?.update();
-}
+  }
+
+  resetZoom(): void {
+    this.chart?.chart?.resetZoom(); // Reset zoom to default
+  }
   
   scheduledOutData: ScheduledOutData[] = [];
   reserveData: ReserveData[] = [];

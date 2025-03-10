@@ -14,6 +14,10 @@ import{ScheduledOutData} from '../assets/data/dummyData.interface'
     constructor(
         private http: HttpClient
     ) {}
+    
+    getData(): Observable<any> {
+        return this.http.get(this.jsonUrl);
+    }
 
     getTransactions(): Observable<ScheduledOutData[]>{
         return this.http.get<{ scheduledOutData: ScheduledOutData[] }>(this.jsonUrl).pipe(

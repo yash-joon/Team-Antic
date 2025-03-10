@@ -1,32 +1,42 @@
-
-<h1>Store Locator</h1>
-
-<div class="store-locator-page">
-    <div class="search-container">
-        <div class="search-inputs">
-            <input type="text" [(ngModel)]="zipcode" placeholder="Enter ZIP Code">
-            <input type="text" [(ngModel)]="address" placeholder="Enter Address">
-            <button class="button" (click)="searchStores()">Search</button>
-        </div>
-        <div id="map"></div>
+<div class="store-locator-container">
+    
+    <div class="search-bar">
+      <mat-form-field appearance="fill" class="search-field">
+        <mat-label>ZIP Code</mat-label>
+        <input matInput type="text" [(ngModel)]="zipcode" placeholder="Enter ZIP Code" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="search-field">
+        <mat-label>Address</mat-label>
+        <input matInput type="text" [(ngModel)]="address" placeholder="Enter Address" />
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" (click)="searchStores()">Search</button>
     </div>
-    <div id="map" style="width: 100%; height: 500px;"></div>
-
-    <h3>Store Locations</h3>
-    <table>
-        <thead>
+  
+    <div class="content">
+      <div class="store-table">
+        <table class="basic-table">
+          <thead>
             <tr>
-                <th>Store Name</th>
-                <th>Address</th>
-                <th>ZIP Code</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>ZIP</th>
             </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let store of stores">
-                <td>{{ store.name }}</td>
-                <td>{{ store.address }}</td>
-                <td>{{ store.zip }}</td>
+          </thead>
+          <tbody>
+            <tr *ngFor="let store of filteredStores" (click)="onRowClicked(store)">
+              <td>{{ store.id }}</td>
+              <td>{{ store.name }}</td>
+              <td>{{ store.address }}</td>
+              <td>{{ store.zip }}</td>
             </tr>
-        </tbody>
-    </table>
-</div>
+          </tbody>
+        </table>
+      </div>
+  
+      <div id="map" class="map-container"></div>
+    </div>
+  </div>
+  

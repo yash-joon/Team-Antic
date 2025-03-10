@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  app-navbar,
+  app-page-footer {
+    flex: 0 0 auto; 
+  }
+  
+  .router-container {
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+  

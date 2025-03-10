@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { RewardsPageModule } from './rewardsPage/rewards-page.module';
-import { HomePageComponent } from './home-page/home-page.component';
+import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { RewardsPageComponent } from './rewardsPage/rewards-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -23,6 +23,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PageFooterComponent } from './page-footer/page-footer.component';
+import { HomeComponent } from './home/home.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -34,7 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
     declarations: [
         AppComponent,
-        HomePageComponent,
+        DashboardPageComponent,
         NavbarComponent,
         SettingsComponent,
         SecurityComponent,
@@ -43,6 +44,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         AuthComponent,
         StoreLocatorComponent,
         PageFooterComponent,
+        HomeComponent,
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,

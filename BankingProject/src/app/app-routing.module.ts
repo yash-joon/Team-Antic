@@ -11,7 +11,7 @@ import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, redirectTo: '', pathMatch: 'full' }, // Default route
+  { path: '', pathMatch:'full', component:HomeComponent }, // Default Route
   { path: 'auth', component:AuthComponent },
   { path: 'dashboard', component: DashboardPageComponent },
   { path: 'settings', component: SettingsComponent },

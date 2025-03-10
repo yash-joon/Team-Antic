@@ -5,6 +5,18 @@ $washed-green: #c8d8e4;
 $gray : #f2f2f2;
 $white : #ffffff;
 
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+app-navbar,
+app-page-footer {
+    flex: 0 0 auto; 
+}
+
+
 button {
     padding: 12px 28px;
     font-size: 1rem;
@@ -26,6 +38,7 @@ button {
     }
 }
 
-main {
-
+.router-container {
+    flex: 1 1 auto;
+    overflow: auto;
 }

@@ -91,6 +91,7 @@ function generateScheduledOutData(transactionId) {
         status: status,
         recurring: Math.random() < 0.2, // 20% chance of being recurring
         notes: "Transaction for ".concat(service),
+        pointsEarned: 0,
     };
 }
 // --------------- Reserve Data ----------------------

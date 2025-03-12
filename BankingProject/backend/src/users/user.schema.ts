@@ -1,13 +1,14 @@
 import {Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import {Types, Document } from 'mongoose';
+import { Transaction } from 'src/transaction/transaction.schema';
 
 @Schema()
 export class User {
 
-    @Prop({required:true})
+    @Prop({ required: true })
     email:string;
 
-    @Prop({required:true})
+    @Prop({ required: true })
     password:string;
 
     // @Prop({ required: true, unique: true })
@@ -21,8 +22,8 @@ export class User {
     
     // add whatever other fields you want a user to have here 
 
-    @Prop({ type: [{ type: Types.ObjectId, ref: 'Transaction' }] }) // array of transactions  
-    transactions: Types.ObjectId[];
+    @Prop({ type: [{ type: Object }] }) // array of transactions  
+    transactions: Transaction[];
 }
 
 export type UserDocument = Document & User;

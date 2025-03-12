@@ -33,6 +33,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TransferPageComponent } from './transfer-page/transfer-page.component';
+import { PaymentPageComponent } from './payment-page/payment-page.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +47,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
         SignInPreferencesComponent,
         AuthComponent,
         StoreLocatorComponent,
-        PageFooterComponent
+        PageFooterComponent,
+        TransferPageComponent,
+        PaymentPageComponent
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,

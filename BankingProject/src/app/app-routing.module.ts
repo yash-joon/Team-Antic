@@ -9,10 +9,14 @@ import { PersonalDetailsComponent } from './settings/personal-details/personal-d
 import { SecurityComponent } from './settings/security/security.component';
 import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { TransferPageComponent } from './transfer-page/transfer-page.component';
+import { PaymentPageComponent } from './payment-page/payment-page.component';
 const routes: Routes = [
   { path: '', pathMatch:'full', component:HomePageComponent }, // Default Route
   { path: 'auth', component:AuthComponent },
   { path: 'dashboard', component: DashboardPageComponent },
+  { path: 'transfer', component: TransferPageComponent},
+  { path: 'payment', component: PaymentPageComponent},
   { path: 'settings', component: SettingsComponent },
   { path: 'personal-details', component: PersonalDetailsComponent },
   { path: 'security', component: SecurityComponent },

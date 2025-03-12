@@ -1,0 +1,101 @@
+<main class="transfer-page">
+    <!-- Left Section: Branding and Summary -->
+    <div class="left-section">
+        <h1>Make a Transfer</h1>
+        <p>Send money instantly and securely between your accounts.</p>
+
+        <div class="summary-box">
+            <h3>Current Balances</h3>
+            <p>Checking: <strong>{{ accounts[0].balance | currency }}</strong></p>
+            <p>Savings: <strong>{{ accounts[1].balance | currency }}</strong></p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <span class="icon">✔️</span> Instant Transfers
+            </div>
+            <div class="feature">
+                <span class="icon">🔒</span> Secure Transactions
+            </div>
+            <div class="feature">
+                <span class="icon">📅</span> Schedule Future Transfers
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Section: Transfer Form -->
+    <div class="right-section">
+        <form [formGroup]="transferForm" (ngSubmit)="onTransfer()">
+            <!-- From Account -->
+            <div class="form-group">
+                <label>From Account</label>
+                <select formControlName="fromAccount" (change)="updateBalance()">
+                    <option *ngFor="let account of accounts" [value]="account.id">
+                        {{ account.name }} ({{ account.accountNumber }}) - {{ account.balance | currency }}
+                    </option>
+                </select>
+                <p class="balance-info">Available Balance: <strong>{{ selectedBalance | currency }}</strong></p>
+            </div>
+
+            <!-- To Account -->
+            <div class="form-group">
+                <label>To Account</label>
+                <select formControlName="toAccount" [disabled]="!transferForm.get('fromAccount')?.value">
+                    <option *ngFor="let account of availableToAccounts" [value]="account.id">
+                        {{ account.name }} ({{ account.accountNumber }})
+                    </option>
+                </select>
+            </div>
+
+            <!-- Amount & Transfer Date (Side-by-Side) -->
+            <div class="row">
+                <!-- Amount -->
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" formControlName="amount" placeholder="Enter amount" (input)="validateAmount()" />
+                    <small *ngIf="transferForm.get('amount')?.hasError('nullAccount') && transferForm.get('amount')?.touched">
+                        Please select an account.
+                    </small>
+                    <small *ngIf="transferForm.get('amount')?.hasError('invalidFormat') && transferForm.get('amount')?.touched">
+                        Please enter a valid number.
+                    </small>
+                    <small *ngIf="transferForm.get('amount')?.hasError('overdraw') && transferForm.get('amount')?.touched">
+                        Amount must be greater than 0 and within your balance.
+                    </small>
+                </div>
+
+                <!-- Transfer Date -->
+                <div class="form-group">
+                    <label>Transfer Date</label>
+                    <input type="date" formControlName="transferDate">
+                </div>
+            </div>
+
+            <!-- Memo -->
+            <div class="form-group">
+                <label>Memo (Optional)</label>
+                <input type="text" formControlName="memo" placeholder="Add a note">
+            </div>
+
+            <button type="submit" [disabled]="transferForm.invalid" (click) = "showConfirmation = true">Review Transfer</button>
+        </form>
+    </div>
+
+    <div *ngIf="showConfirmation" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Confirm Transfer</h2>
+    
+            <div class="modal-details">
+                <p><strong>From:</strong> <span>{{ getAccountName(transferForm.value.fromAccount) }}</span></p>
+                <p><strong>To:</strong> <span>{{ getAccountName(transferForm.value.toAccount) }}</span></p>
+                <p><strong>Amount:</strong> <span>{{ transferForm.value.amount | currency }}</span></p>
+                <p><strong>Date:</strong> <span>{{ transferForm.value.transferDate | date:'shortDate'}}</span></p>
+            </div>
+    
+            <div class="modal-actions">
+                <button class="confirm" (click)="submitTransfer()">Confirm</button>
+                <button class="cancel" (click)="showConfirmation = false">Cancel</button>
+            </div>
+        </div>
+    </div>
+</main>

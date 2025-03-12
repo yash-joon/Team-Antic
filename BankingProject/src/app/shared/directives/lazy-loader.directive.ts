@@ -10,15 +10,19 @@ export class LazyLoaderDirective implements AfterViewInit {
   constructor(private el: ElementRef) {}
 
   ngAfterViewInit() {
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // console.log('Element is visible:', this.el.nativeElement);
+        if (entry.intersectionRatio > 0) { // Detects any intersection
+          console.log('Element is visible:', this.el.nativeElement);
           this.visible.emit(true);
-          observer.unobserve(this.el.nativeElement); // Stop observing after first trigger
+          observer.unobserve(entry.target); // Stop observing after trigger
         }
       });
-    }, { threshold: 0.2 }); // Adjust threshold as needed
+    }, {
+      root: null, // Uses viewport as root
+      rootMargin: '300px 0px', // Triggers when the element is still 200px below viewport
+      threshold: 0.01 // Element only needs to be 1% visible
+    });
 
     observer.observe(this.el.nativeElement);
   }

@@ -19,6 +19,6 @@ export class HomePageComponent {
       if (section === 'landing2') this.landing2Visible = true;
       if (section === 'landing3') this.landing3Visible = true;
       this.cdr.detectChanges();
-    }, 100); // Slight delay for a smooth effect
+    }, 10); // Slight delay for a smooth effect
   }
 }

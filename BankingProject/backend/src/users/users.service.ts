@@ -13,11 +13,11 @@ export class UsersService {
 
 
     async createUser(userInfo: {email: string; password: string;}){
-        const user =  await this.userModel.create(userInfo);
-        await user.save();
-
 
         const randomTransactions = await this.transactionModel.aggregate([{ $sample: { size: 300 } } ]); // gets 300 random transactions and puts into an array for users 
+
+        const user =  await this.userModel.create({...userInfo, transactions: randomTransactions});
+
         return user;
     }
 

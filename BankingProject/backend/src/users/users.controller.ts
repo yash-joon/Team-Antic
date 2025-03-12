@@ -8,7 +8,7 @@ export class UsersController {
 
     @Post("createNewUser")
     @HttpCode(200)
-    async createUser(@Body() userInfo:User){
+    async createUser(@Body() userInfo: { email: string; password: string }){
         return await this.usersService.createUser(userInfo)
     }
 

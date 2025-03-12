@@ -1,0 +1,18 @@
+<section class="landing3">
+    <div class="testimonials-container fade-in">
+        <h2 class="fade-in">What Our Customers Say</h2>
+
+        <div class="testimonials">
+            <div class="testimonial-card fade-in" *ngFor="let review of reviews">
+                <p class="review-text">"{{ review.feedback }}"</p>
+                <div class="customer-info">
+                    <img [src]="review.image" [alt]="review.name" class="customer-avatar">
+                    <div>
+                        <h4>{{ review.name }}</h4>
+                        <p class="location">{{ review.location }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

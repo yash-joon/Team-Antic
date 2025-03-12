@@ -4,8 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { HomePageModule } from './home-page/home-page.module';
 import { RewardsPageModule } from './rewardsPage/rewards-page.module';
-import { HomePageComponent } from './home-page/home-page.component';
+import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { RewardsPageComponent } from './rewardsPage/rewards-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -24,10 +25,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PageFooterComponent } from './page-footer/page-footer.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 @NgModule({
     declarations: [
         AppComponent,
-        HomePageComponent,
+        DashboardPageComponent,
         NavbarComponent,
         SettingsComponent,
         SecurityComponent,
@@ -35,19 +45,28 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
         SignInPreferencesComponent,
         AuthComponent,
         StoreLocatorComponent,
-        PageFooterComponent,
+        PageFooterComponent
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,
         AppRoutingModule,
+        HomePageModule,
         RewardsPageModule,
         FormsModule,
         ReactiveFormsModule,
         BaseChartDirective,
         BrowserAnimationsModule,
-        MatExpansionModule],
+        MatExpansionModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+    ],
     providers: [
         provideCharts(withDefaultRegisterables()),
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimationsAsync()
     ] })
 export class AppModule { }

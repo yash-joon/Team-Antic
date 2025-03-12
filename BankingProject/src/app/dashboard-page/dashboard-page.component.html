@@ -1,0 +1,166 @@
+<!-- Burndown -->
+<h1> Welcome user </h1>
+
+<div class="burndown-page">
+    <div class="bar-numbers">
+        <div class="scheduled-out">
+            <div>
+                Scheduled Out
+            </div>
+            <div class="text">
+                ${{scheduledOutAmount | number:'1.2-2'}}
+            </div>
+        </div>
+        <div class="reserve">
+            <div>
+                Reserve
+            </div>
+            <div class="text">
+                ${{reserveAmount | number:'1.2-2'}}
+            </div>
+        </div>
+        <div class="savings">
+            <div>            
+                Savings
+            </div>
+            <div class="text">
+                ${{ savingsAmount | number:'1.2-2' }}
+            </div>
+        </div>
+    </div>
+    <div class="bar-chart">
+        <div class="scheduled-out" [style.width.%]="scheduledOutPercentage">
+            
+        </div>
+        <div class="reserve" [style.width.%]="reservePercentage">
+
+        </div>
+        <div class="savings" [style.width.%]="savingsPercentage">
+
+        </div>
+    </div>
+
+    <div class="transfer burndown-button">
+        <button>
+            Make a Transfer
+        </button>
+        <button>
+            Make a Payment
+        </button>
+    </div>
+    <div class="burndown-chart">
+        <canvas baseChart
+                [data]="lineChartData"
+                [options]="lineChartOptions"
+                [type]="lineChartType">
+        </canvas>
+        <!-- <button (click)="resetZoom()">Reset Zoom</button> -->
+    </div>
+
+    <div class="burndown-details">
+        <div class="burndown-actions burndown-button">
+            <button
+                (click)="switchTableMode('scheduledOut')"
+                [class.active]="currentTableMode === 'scheduledOut'">
+                Scheduled Out
+            </button>
+            <button
+                (click)="switchTableMode('reserve')"
+                [class.active]="currentTableMode === 'reserve'">
+                Reserve
+            </button>
+            <button
+                (click)="switchTableMode('savings')"
+                [class.active]="currentTableMode === 'savings'">
+                Savings List
+            </button>
+        </div>
+        <div [ngSwitch]="currentTableMode" class = "accordion-table-header">
+            <div *ngSwitchCase="'scheduledOut'">
+                Scheduled Out Until {{scheduledOutDate}}
+            </div>
+            <div *ngSwitchCase="'reserve'">
+                Reserve
+            </div>
+            <div *ngSwitchCase="'savings'">
+                Savings
+            </div>
+        </div>
+        <div class="accordion-container">
+            <mat-accordion [multi]="true">
+                <div [ngSwitch]="currentTableMode">
+            
+                <!-- Scheduled Out Section -->
+                <ng-container *ngSwitchCase="'scheduledOut'">
+                    <ng-container *ngFor="let item of scheduledOutData">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="row">
+                                <p>{{ item.date }} - {{ item.service }}</p>
+                                <p>${{ item.cost }}</p>    
+                            </span>
+                        </mat-expansion-panel-header>
+            
+                        <div class="accordion-details">
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            <p><strong>Store Name:</strong> {{ item.location.storeName }}</p>
+                            <p><strong>Address:</strong> {{ item.location.address }}</p>
+                            <p><strong>Payment Method:</strong> {{ item.paymentMethod }}</p>
+                            <p><strong>Status:</strong> {{ item.status }}</p>
+                            <p><strong>Notes:</strong> {{ item.notes }}</p>
+                            <p><strong>Recurring:</strong> {{ item.recurring ? 'Yes' : 'No' }}</p>
+                        
+                        </div>
+                    </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>
+            
+                <!-- Reserve Section -->
+                <ng-container *ngSwitchCase="'reserve'">
+                    <ng-container *ngFor="let item of reserveData">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="row">
+                                <p>{{ item.date }} - {{ item.source }}</p>
+                                <p>${{ item.amount }}</p>    
+                            </span>
+                        </mat-expansion-panel-header>
+            
+                        <div class="accordion-details">
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            <p><strong>Payment Method:</strong> {{ item.paymentMethod }}</p>
+                            <p><strong>Status:</strong> {{ item.status }}</p>
+                            <p><strong>Notes:</strong> {{ item.notes }}</p>
+                        </div>
+                    </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>
+            
+                <!-- Savings Section -->
+                <ng-container *ngSwitchCase="'savings'">
+                    <ng-container *ngFor="let item of savingsData">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="row">
+                                <p>{{ item.date }}</p>
+                                <p>${{ item.amount }}</p>    
+                            </span>
+                        </mat-expansion-panel-header>
+            
+                        <div class="accordion-details">
+                            <p><strong>Category:</strong> {{ item.category }}</p>
+                            <p><strong>Payment Method:</strong> {{ item.paymentMethod }}</p>
+                            <p><strong>Status:</strong> {{ item.status }}</p>
+                            <p><strong>Notes:</strong> {{ item.notes }}</p>
+                            <p><strong>Description:</strong> {{ item.description }}</p>
+                        </div>
+                    </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>            
+                </div>
+            
+            </mat-accordion>
+        </div>
+          
+    </div>
+</div>

@@ -11,12 +11,6 @@ $white : #ffffff;
     height: 100vh;
 }
 
-app-navbar,
-app-page-footer {
-    flex: 0 0 auto; 
-}
-
-
 button {
     padding: 12px 28px;
     font-size: 1rem;
@@ -38,7 +32,21 @@ button {
     }
 }
 
-.router-container {
-    flex: 1 1 auto;
-    overflow: auto;
+.page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding: 0px; /* Adjust padding as needed */
+    min-height: 90vh;
+    overflow-y: auto;
+}
+
+app-page-footer {
+    text-align: center;
+    margin-top: auto;
+    position: relative;
+    width: 100%;
 }

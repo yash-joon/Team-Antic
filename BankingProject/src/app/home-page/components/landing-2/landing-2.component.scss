@@ -1,0 +1,82 @@
+// Color Palette
+$dark-green: #2b6777;
+$mid-green: #52ab98;
+$washed-green: #c8d8e4;
+$gray: #f2f2f2;
+$white: #ffffff;
+
+.stats-section {
+    height: 50vh;
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: $gray;
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: $dark-green;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: $mid-green;
+        margin-bottom: 2rem;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        width: 12rem;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            color: $mid-green;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: $dark-green;
+        }
+
+        p {
+            font-size: 1rem;
+            color: $mid-green;
+        }
+    }
+}
+
+    // Smooth Fade-in Animations
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }

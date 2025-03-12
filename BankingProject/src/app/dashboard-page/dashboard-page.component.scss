@@ -36,6 +36,8 @@ $white : #ffffff;
 mat-expansion-panel {
     margin-bottom: 8px;
     border: 1px solid $gray;
+    
+    background-color: $dark-green;
     border-radius: 5px;
 }
   
@@ -54,6 +56,7 @@ mat-expansion-panel {
 }
 
 .accordion-details {
+    color: black;
     padding: 10px;
     background-color: $white;
     border-top: 1px solid $washed-green;

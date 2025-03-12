@@ -1,0 +1,12 @@
+<section class="stats-section">
+    <h2 class = "fade-in">Why Choose Antic Bank?</h2>
+    <p class="subtitle fade-in">Trusted by thousands of users worldwide, we provide a seamless and secure banking experience.</p>
+
+    <div class="stats-container fade-in">
+        <div class="stat-card" *ngFor="let stat of stats">
+            <mat-icon class="stat-icon">{{ stat.icon }}</mat-icon>
+            <h3>{{ stat.title }}</h3>
+            <p>{{ stat.subtitle }}</p>
+        </div>
+    </div>
+</section>

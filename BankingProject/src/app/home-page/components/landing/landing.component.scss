@@ -8,8 +8,8 @@ $white: #ffffff;
 main {
     display: flex;
     width: 100%;
-    height: 90vh;
-    overflow: hidden;
+    min-height: 100vh;
+    // overflow: hidden;
 }
 
 .left-content {
@@ -18,7 +18,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 50px;
+    padding: 3rem;
     background-color: $dark-green;
     color: $white;
     animation: slideInLeft 1s ease-in-out;
@@ -36,31 +36,11 @@ p {
     margin-bottom: 30px;
 }
 
-button {
-    padding: 12px 28px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    background-color: $mid-green;
-    color: $white;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-
-    &:hover {
-        background-color: $washed-green;
-        transform: scale(1.05);
-    }
-
-    &:active {
-        transform: scale(0.98);
-    }
-}
 
 .right-content {
     width: 50%;
-    height: 100vh;
-    background: url('../../assets/images/hero-image.png') no-repeat center center;
+    // height: 90vh;
+    background: url('../../../../assets/images/hero-image.png') no-repeat center center;
     background-size: cover;
     animation: slideInRight 1s ease-in-out;
 }

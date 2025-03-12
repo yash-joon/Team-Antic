@@ -40,7 +40,7 @@
             <!-- To Account -->
             <div class="form-group">
                 <label>To Account</label>
-                <select formControlName="toAccount" [disabled]="!transferForm.get('fromAccount')?.value">
+                <select formControlName="toAccount">
                     <option *ngFor="let account of availableToAccounts" [value]="account.id">
                         {{ account.name }} ({{ account.accountNumber }})
                     </option>
@@ -77,7 +77,12 @@
                 <input type="text" formControlName="memo" placeholder="Add a note">
             </div>
 
-            <button type="submit" [disabled]="transferForm.invalid" (click) = "showConfirmation = true">Review Transfer</button>
+            <button 
+                type="submit" 
+                [disabled]="transferForm.invalid"
+                (click)="validateAmount()">
+                Review Transfer
+            </button>
         </form>
     </div>
 
@@ -90,6 +95,7 @@
                 <p><strong>To:</strong> <span>{{ getAccountName(transferForm.value.toAccount) }}</span></p>
                 <p><strong>Amount:</strong> <span>{{ transferForm.value.amount | currency }}</span></p>
                 <p><strong>Date:</strong> <span>{{ transferForm.value.transferDate | date:'shortDate'}}</span></p>
+                <p><strong>Memo:</strong> <span>{{ transferForm.value.memo.length > 0 ? transferForm.value.memo  : "N/A" }}</span></p>
             </div>
     
             <div class="modal-actions">

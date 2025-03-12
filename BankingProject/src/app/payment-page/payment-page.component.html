@@ -1,1 +1,92 @@
-<p>payment-page works!</p>
+<main class="payment-page">
+    <!-- Left Section - Info Panel -->
+    <section class="left-section">
+        <h1>Make a Payment</h1>
+        <p>Send money instantly and securely to your contacts.</p>
+
+        <div class="info-box">
+            <h3>How it Works</h3>
+            <ul>
+                <li>Enter recipient details and payment amount.</li>
+                <li>Review your transaction before sending.</li>
+                <li>Enjoy fast, secure, and hassle-free payments.</li>
+            </ul>
+        </div>
+
+        <div class="security-banner">
+            <span class="icon">🔒</span>
+            <p>100% Secure Transactions with Bank-Grade Encryption</p>
+        </div>
+    </section>
+
+    <!-- Right Section - Payment Form -->
+    <section class="right-section">
+        <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+            <!-- Recipient Selection -->
+            <div class="form-group">
+                <label>Recipient</label>
+                <input 
+                    type="text" 
+                    formControlName="recipient" 
+                    placeholder="Enter name, email, or phone" 
+                    (input)="searchRecipient()"
+                />
+                <ul class="autocomplete-list" *ngIf="filteredRecipients.length > 0">
+                    <li *ngFor="let user of filteredRecipients" (click)="selectRecipient(user)">
+                        {{ user.name }} ({{ user.email }})
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Amount & Memo in Row -->
+            <div class="row">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input 
+                        type="text" 
+                        formControlName="amount" 
+                        placeholder="Enter amount" 
+                        (input)="validateAmount()" 
+                    />
+                    <small *ngIf="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched">
+                        Amount must be a valid number and greater than $0.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>Memo (Optional)</label>
+                    <input type="text" formControlName="memo" placeholder="Add a note">
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select formControlName="paymentMethod">
+                    <option *ngFor="let method of paymentMethods" [value]="method">
+                        {{ method }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" [disabled]="paymentForm.invalid">Review Payment</button>
+        </form>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div *ngIf="showConfirmation" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Confirm Payment</h2>
+            <p><strong>Recipient:</strong> {{ selectedRecipient?.name }} ({{ selectedRecipient?.email }})</p>
+            <p><strong>Amount:</strong> {{ paymentForm.value.amount | currency }}</p>
+            <p><strong>Memo:</strong> {{ paymentForm.value.memo || 'N/A' }}</p>
+            <p><strong>Payment Method:</strong> {{ paymentForm.value.paymentMethod }}</p>
+
+            <div class="modal-actions">
+                <button class="confirm" (click)="submitPayment()">Confirm</button>
+                <button class="cancel" (click)="showConfirmation = false">Cancel</button>
+            </div>
+        </div>
+    </div>
+</main>

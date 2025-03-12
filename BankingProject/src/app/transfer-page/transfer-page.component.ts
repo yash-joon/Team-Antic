@@ -57,30 +57,25 @@ export class TransferPageComponent {
 
   validateAmount() {
     let amount = this.transferForm.value.amount;
-
-    // 1. Reset previous errors
-    this.transferForm.get('amount')?.setErrors(null);
-
-    // 2. Find selected account balance
-    const selectedId = this.transferForm.value.fromAccount;
-    const account = this.accounts.find(acc => acc.id === selectedId);
-    this.selectedBalance = account ? account.balance : 0;
-
-    // 3. Trim spaces and validate numeric input
+    
+    const amountControl = this.transferForm.get('amount');
+    amountControl?.setErrors(null); // Clear all errors first
+  
     if (typeof amount === 'string') {
       amount = amount.trim();
       this.transferForm.patchValue({ amount });
     }
-
+  
     const numericAmount = parseFloat(amount);
-
-    // 4. Ensure valid number input
+  
     if (!/^\d+(\.\d{1,2})?$/.test(amount)) {
-      this.transferForm.get('amount')?.setErrors({ invalidFormat: true });
+      amountControl?.setErrors({ invalidFormat: true });
     } else if (isNaN(numericAmount) || numericAmount <= 0 || numericAmount > this.selectedBalance) {
-      this.transferForm.get('amount')?.setErrors({ overdraw: true });
+      amountControl?.setErrors({ overdraw: true });
     }
-  }
+  
+    amountControl?.updateValueAndValidity(); // 🔹 Forces form to recognize updates
+  }  
 
   onTransfer() {
     this.validateAmount();

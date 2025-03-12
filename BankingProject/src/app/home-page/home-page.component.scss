@@ -1,0 +1,31 @@
+// Color Palette
+$dark-green: #2b6777;
+$mid-green: #52ab98;
+$washed-green: #c8d8e4;
+$gray: #f2f2f2;
+$white: #ffffff;
+
+main {
+    display: flex;
+    flex-direction: column;   
+}
+
+.placeholder {
+    height: 50vh; /* Adjust to match actual component height */
+    width: 100%;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.second {
+    background-color: $gray;
+}
+.third {
+    background-color: $dark-green;
+}
+
+.landing-container {
+    position: relative;
+    width: 100%;
+}
+

@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { HomePageModule } from './home-page/home-page.module';
 import { RewardsPageModule } from './rewardsPage/rewards-page.module';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { RewardsPageComponent } from './rewardsPage/rewards-page.component';
@@ -23,7 +24,6 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PageFooterComponent } from './page-footer/page-footer.component';
-import { HomeComponent } from './home/home.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -31,6 +31,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
     declarations: [
@@ -43,12 +45,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         SignInPreferencesComponent,
         AuthComponent,
         StoreLocatorComponent,
-        PageFooterComponent,
-        HomeComponent,
+        PageFooterComponent
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule,
         AppRoutingModule,
+        HomePageModule,
         RewardsPageModule,
         FormsModule,
         ReactiveFormsModule,
@@ -60,9 +62,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatSortModule,
         MatButtonModule,
         MatInputModule,
-        MatFormFieldModule],
+        MatFormFieldModule,
+    ],
     providers: [
         provideCharts(withDefaultRegisterables()),
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimationsAsync()
     ] })
 export class AppModule { }

@@ -8,10 +8,9 @@ import { StoreLocatorComponent } from './store-locator/store-locator.component';
 import { PersonalDetailsComponent } from './settings/personal-details/personal-details.component';
 import { SecurityComponent } from './settings/security/security.component';
 import { SignInPreferencesComponent } from './settings/sign-in-preferences/sign-in-preferences.component';
-import { HomeComponent } from './home/home.component';
-
+import { HomePageComponent } from './home-page/home-page.component';
 const routes: Routes = [
-  { path: '', pathMatch:'full', component:HomeComponent }, // Default Route
+  { path: '', pathMatch:'full', component:HomePageComponent }, // Default Route
   { path: 'auth', component:AuthComponent },
   { path: 'dashboard', component: DashboardPageComponent },
   { path: 'settings', component: SettingsComponent },

@@ -1,0 +1,18 @@
+<main class="landing-container">
+    <app-landing></app-landing>
+
+    <!-- Placeholder to maintain space before components load -->
+    <div *ngIf="!landing2Visible" class="placeholder second"></div>
+    
+    <ng-container *ngIf="landing2Visible">
+        <app-landing-2></app-landing-2>
+    </ng-container>
+    <div appLazyLoader (visible)="onVisible('landing2')"></div>
+
+    <div *ngIf="!landing3Visible" class="placeholder third"></div>
+    
+    <ng-container *ngIf="landing3Visible">
+        <app-landing-3></app-landing-3> 
+    </ng-container>
+    <div appLazyLoader (visible)="onVisible('landing3')"></div>
+</main>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -12,7 +13,7 @@ export class AuthComponent {
   showOTP = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private authService: AuthService) {
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
@@ -58,6 +59,12 @@ export class AuthComponent {
  
     } else {
       console.log('Registering with', email, password);
+
+      this.authService.registerUser(email, password).subscribe({
+        next:(res)=>{
+          console.log(res);
+        }
+      });
 
     }
   }

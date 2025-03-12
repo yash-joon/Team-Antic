@@ -19,7 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BaseChartDirective } from 'ng2-charts';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -67,6 +67,7 @@ import { PaymentPageComponent } from './payment-page/payment-page.component';
         MatButtonModule,
         MatInputModule,
         MatFormFieldModule,
+        HttpClientModule,
     ],
     providers: [
         provideCharts(withDefaultRegisterables()),

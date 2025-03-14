@@ -54,6 +54,7 @@ export class PaymentPageComponent {
     this.selectedRecipient = user;
     this.paymentForm.patchValue({ recipient: `${user.name} (${user.email})` });
     this.filteredRecipients = [];
+    // this.validateAmount();
   }
 
   /**

@@ -31,11 +31,11 @@
                     placeholder="Enter name, email, or phone" 
                     (input)="searchRecipient()"
                 />
-                <ul class="autocomplete-list" *ngIf="filteredRecipients.length > 0">
+                <!-- <ul class="autocomplete-list" *ngIf="filteredRecipients.length > 0">
                     <li *ngFor="let user of filteredRecipients" (click)="selectRecipient(user)">
                         {{ user.name }} ({{ user.email }})
                     </li>
-                </ul>
+                </ul> -->
             </div>
 
             <!-- Amount & Memo in Row -->
@@ -70,7 +70,11 @@
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" [disabled]="paymentForm.invalid">Review Payment</button>
+            <button type="submit"
+                [disabled]="paymentForm.invalid"
+                (click)="validateAmount()">
+                Review Payment
+            </button>
         </form>
     </section>
 
@@ -78,11 +82,12 @@
     <div *ngIf="showConfirmation" class="modal-overlay">
         <div class="modal-content">
             <h2>Confirm Payment</h2>
-            <p><strong>Recipient:</strong> {{ selectedRecipient?.name }} ({{ selectedRecipient?.email }})</p>
-            <p><strong>Amount:</strong> {{ paymentForm.value.amount | currency }}</p>
-            <p><strong>Memo:</strong> {{ paymentForm.value.memo || 'N/A' }}</p>
-            <p><strong>Payment Method:</strong> {{ paymentForm.value.paymentMethod }}</p>
-
+            <div class="modal-details">
+                <p><strong>Recipient:</strong> {{ selectedRecipient?.name }} ({{ selectedRecipient?.email }})</p>
+                <p><strong>Amount:</strong> {{ paymentForm.value.amount | currency }}</p>
+                <p><strong>Memo:</strong> {{ paymentForm.value.memo || 'N/A' }}</p>
+                <p><strong>Payment Method:</strong> {{ paymentForm.value.paymentMethod }}</p>
+            </div>
             <div class="modal-actions">
                 <button class="confirm" (click)="submitPayment()">Confirm</button>
                 <button class="cancel" (click)="showConfirmation = false">Cancel</button>

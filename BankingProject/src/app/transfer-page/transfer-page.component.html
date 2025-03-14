@@ -29,7 +29,7 @@
             <!-- From Account -->
             <div class="form-group">
                 <label>From Account</label>
-                <select formControlName="fromAccount" (change)="updateBalance()">
+                <select formControlName="fromAccount" (change)="selectFromChange()">
                     <option *ngFor="let account of accounts" [value]="account.id">
                         {{ account.name }} ({{ account.accountNumber }}) - {{ account.balance | currency }}
                     </option>
@@ -40,7 +40,7 @@
             <!-- To Account -->
             <div class="form-group">
                 <label>To Account</label>
-                <select formControlName="toAccount">
+                <select formControlName="toAccount" [disabled]="!transferForm.get('fromAccount')?.value">
                     <option *ngFor="let account of availableToAccounts" [value]="account.id">
                         {{ account.name }} ({{ account.accountNumber }})
                     </option>
@@ -53,15 +53,7 @@
                 <div class="form-group">
                     <label>Amount</label>
                     <input type="text" formControlName="amount" placeholder="Enter amount" (input)="validateAmount()" />
-                    <small *ngIf="transferForm.get('amount')?.hasError('nullAccount') && transferForm.get('amount')?.touched">
-                        Please select an account.
-                    </small>
-                    <small *ngIf="transferForm.get('amount')?.hasError('invalidFormat') && transferForm.get('amount')?.touched">
-                        Please enter a valid number.
-                    </small>
-                    <small *ngIf="transferForm.get('amount')?.hasError('overdraw') && transferForm.get('amount')?.touched">
-                        Amount must be greater than 0 and within your balance.
-                    </small>
+                    <small *ngIf="getFirstError()">{{ getFirstError() }}</small>
                 </div>
 
                 <!-- Transfer Date -->
@@ -79,8 +71,7 @@
 
             <button 
                 type="submit" 
-                [disabled]="transferForm.invalid"
-                (click)="validateAmount()">
+                [disabled]="transferForm.invalid">
                 Review Transfer
             </button>
         </form>

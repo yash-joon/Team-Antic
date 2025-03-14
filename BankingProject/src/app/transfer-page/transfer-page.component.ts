@@ -31,9 +31,12 @@ export class TransferPageComponent {
 
   getAccountName(accountId: string): string {
     const account = this.accounts.find(acc => acc.id === accountId);
+    this.validateAmount();
     return account ? `${account.name} (${account.accountNumber})` : 'N/A';
+    
   }
 
+  // Helper function
   updateBalance() {
     const selectedId = this.transferForm.value.fromAccount;
     const account = this.accounts.find(acc => acc.id === selectedId);
@@ -52,38 +55,81 @@ export class TransferPageComponent {
       this.transferForm.get('toAccount')?.enable();
     }
 
-    this.validateAmount();
+    // this.validateAmount();
   }
+
+  // Helper function
+  resetAmount() {
+    this.transferForm.patchValue({ amount: '' });
+    this.transferForm.get('amount')?.setErrors(null);
+    this.transferForm.get('amount')?.updateValueAndValidity();
+  }
+
+  selectFromChange() {
+    this.updateBalance()
+    this.resetAmount()
+  }
+
 
   validateAmount() {
     let amount = this.transferForm.value.amount;
+    const amountControl = this.transferForm.get('amount');
 
-    // 1. Reset previous errors
-    this.transferForm.get('amount')?.setErrors(null);
+    // Ensure it's marked as touched so errors show immediately
+    amountControl?.markAsTouched();
 
-    // 2. Find selected account balance
-    const selectedId = this.transferForm.value.fromAccount;
-    const account = this.accounts.find(acc => acc.id === selectedId);
-    this.selectedBalance = account ? account.balance : 0;
+    // Clear previous errors
+    amountControl?.setErrors(null);
 
-    // 3. Trim spaces and validate numeric input
+    // Validate if no account is selected first
+    if (!this.transferForm.get('fromAccount')?.value) {
+        amountControl?.setErrors({ nullAccount: true });
+        return; // Stop further validation
+    }
+
+    // Trim spaces and validate numeric input
     if (typeof amount === 'string') {
-      amount = amount.trim();
-      this.transferForm.patchValue({ amount });
+        amount = amount.trim();
+        this.transferForm.patchValue({ amount });
     }
 
     const numericAmount = parseFloat(amount);
 
-    // 4. Ensure valid number input
+    // Validate if input is not a number (invalid format)
     if (!/^\d+(\.\d{1,2})?$/.test(amount)) {
-      this.transferForm.get('amount')?.setErrors({ invalidFormat: true });
-    } else if (isNaN(numericAmount) || numericAmount <= 0 || numericAmount > this.selectedBalance) {
-      this.transferForm.get('amount')?.setErrors({ overdraw: true });
+        amountControl?.setErrors({ invalidFormat: true });
+        return; // Stop further validation
     }
+
+    // Validate for overdraw and amount limits
+    if (isNaN(numericAmount) || numericAmount <= 0 || numericAmount > this.selectedBalance) {
+        amountControl?.setErrors({ overdraw: true });
+        return; // Stop further validation
+    }
+
+    // Ensure Angular recognizes the change
+    amountControl?.updateValueAndValidity();
   }
 
+  getFirstError(): string | null {
+    const amountControl = this.transferForm.get('amount');
+
+    if (amountControl?.touched) {
+      if (amountControl?.hasError('nullAccount')) {
+          return 'Please select an account.';
+      } else if (amountControl?.hasError('invalidFormat')) {
+          return 'Please enter a valid number.';
+      } else if (amountControl?.hasError('overdraw')) {
+          return 'Amount must be greater than 0 and within your balance.';
+      }
+    }
+    return null;
+  }
+
+
+
   onTransfer() {
-    this.validateAmount();
+    // this.validateAmount();
 
     if (this.transferForm.invalid) {
       return;

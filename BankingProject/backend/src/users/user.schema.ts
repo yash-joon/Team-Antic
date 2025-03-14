@@ -11,11 +11,24 @@ export class User {
     @Prop({ required: true })
     password:string;
 
-    // @Prop({ required: true, unique: true })
-    // accountNumber: string;
+    @Prop({ required: true})
+    firstName:string;
 
-    // @Prop({required: true, unique: true})
-    // accountBalance: number;
+    @Prop({ required: true})
+    lastName:string;
+
+    @Prop({ required: true, unique: true })
+    accountNumber: string;
+
+    // Have these so we don't have to sum up the entire database.
+    @Prop({required: true, unique: true})
+    scheduledOutTotal: number;
+
+    @Prop({required: true, unique: true})
+    reserveTotal: number;
+    
+    @Prop({required: true, unique: true})
+    savingsTotal: number;
 
     // @Prop({ required: true})
     // creditCardNumber: string;

@@ -50,6 +50,13 @@ export class TransferPageComponent {
     // Filter out selected fromAccount from available toAccount options
     this.availableToAccounts = this.accounts.filter(acc => acc.id !== selectedId);
 
+    // Auto-populate both fields if there's only 2 choices 
+    if (this.availableToAccounts.length === 1) {
+      this.transferForm.patchValue({ toAccount: this.availableToAccounts[0].id });
+    } else {
+      this.transferForm.patchValue({ toAccount: '' });
+    }
+
     // Enable toAccount only when fromAccount is selected
     if (selectedId) {
       this.transferForm.get('toAccount')?.enable();
@@ -58,7 +65,7 @@ export class TransferPageComponent {
     this.validateForm();
   }
   
-  // Helper function
+  // Helper function that validates form
   validateForm() {
     Object.keys(this.transferForm.controls).forEach((field) => {
       const control = this.transferForm.get(field);
@@ -66,13 +73,15 @@ export class TransferPageComponent {
     });
   }
 
-  // Helper function
+  // Helper function that resets amount
   resetAmount() {
     this.transferForm.patchValue({ amount: '' });
     this.transferForm.get('amount')?.setErrors(null);
-    this.transferForm.get('amount')?.updateValueAndValidity();
+    this.validateForm();
+    // this.transferForm.get('amount')?.updateValueAndValidity();
   }
 
+  // This executes whenever fromAccount is changed
   selectFromChange() {
     this.updateBalance()
     this.resetAmount()
@@ -118,6 +127,7 @@ export class TransferPageComponent {
     this.validateForm();
   }
 
+  // Gets the most important error out of the current errors
   getFirstError(): string | null {
     const amountControl = this.transferForm.get('amount');
 
@@ -133,18 +143,15 @@ export class TransferPageComponent {
     return null;
   }
 
-
-
+  // Turns on modal
   onTransfer() {
-    // this.validateAmount();
-
     if (this.transferForm.invalid) {
       return;
     }
-
     this.showConfirmation = true;
   }
 
+  // Submits form
   submitTransfer() {
     console.log('Transfer successful:', this.transferForm.value);
     alert('Transfer Completed Successfully!');

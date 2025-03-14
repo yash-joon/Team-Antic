@@ -54,8 +54,16 @@ export class TransferPageComponent {
     if (selectedId) {
       this.transferForm.get('toAccount')?.enable();
     }
-
-    // this.validateAmount();
+    this.resetAmount()
+    this.validateForm();
+  }
+  
+  // Helper function
+  validateForm() {
+    Object.keys(this.transferForm.controls).forEach((field) => {
+      const control = this.transferForm.get(field);
+      control?.updateValueAndValidity(); // Ensures Angular re-evaluates form status
+    });
   }
 
   // Helper function
@@ -107,8 +115,7 @@ export class TransferPageComponent {
         return; // Stop further validation
     }
 
-    // Ensure Angular recognizes the change
-    amountControl?.updateValueAndValidity();
+    this.validateForm();
   }
 
   getFirstError(): string | null {

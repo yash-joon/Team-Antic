@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-transfer-page',
@@ -7,6 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./transfer-page.component.scss']
 })
 export class TransferPageComponent {
+  private _apiUrl = 'http://localhost:3000/transfers'
+  isLoading = false;
+  showSuccess = false;
   transferForm: FormGroup;
   accounts = [
     { id: '1', name: 'Checking Account', balance: 5000, accountNumber: '****1234' },
@@ -19,7 +23,7 @@ export class TransferPageComponent {
   selectedToAccount = '';
   availableToAccounts = [...this.accounts]; // Stores filtered toAccount options
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
     this.transferForm = this.fb.group({
       fromAccount: ['', Validators.required],
       toAccount: [{ value: '', disabled: true }, Validators.required], // Initially disabled
@@ -153,9 +157,49 @@ export class TransferPageComponent {
 
   // Submits form
   submitTransfer() {
-    console.log('Transfer successful:', this.transferForm.value);
-    alert('Transfer Completed Successfully!');
-    this.showConfirmation = false;
-    this.transferForm.reset();
+    if (this.transferForm.invalid) {
+      return;
+    }
+  
+    // Find the actual account objects
+    const fromAccountObj = this.accounts.find(acc => acc.id === this.transferForm.value.fromAccount);
+    const toAccountObj = this.accounts.find(acc => acc.id === this.transferForm.value.toAccount);
+  
+    // Construct the transfer object with account numbers
+    const transferData = {
+      fromAccount: fromAccountObj ? fromAccountObj.accountNumber : '',
+      toAccount: toAccountObj ? toAccountObj.accountNumber : '',
+      amount: this.transferForm.value.amount,
+      transferDate: this.transferForm.value.transferDate,
+      memo: this.transferForm.value.memo
+    };
+  // Show loader for a minimum of 2 seconds
+  this.isLoading = true;
+  this.showSuccess = false;
+  const loaderMinTime = new Promise(resolve => setTimeout(resolve, 2000));
+
+  const apiRequest = this.http.post(this._apiUrl, transferData).toPromise();
+
+  // Wait for both the API response & the minimum loader time
+  Promise.all([loaderMinTime, apiRequest])
+    .then(([_, response]) => {
+      console.log('Transfer successful:', response);
+      this.isLoading = false;
+      this.showSuccess = true;
+
+      // Show success message for 3 seconds before closing
+      setTimeout(() => {
+        this.showSuccess = false;
+        this.showConfirmation = false;
+          
+        this.transferForm.reset();
+      }, 2000); // Success message duration
+    })
+    .catch(err => {
+      console.error('Error during transfer:', err);
+      alert('An error occurred while processing your transfer.');
+      this.isLoading = false;
+    });
+
   }
 }

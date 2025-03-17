@@ -79,19 +79,32 @@
 
     <div *ngIf="showConfirmation" class="modal-overlay">
         <div class="modal-content">
-            <h2>Confirm Transfer</h2>
-    
-            <div class="modal-details">
-                <p><strong>From:</strong> <span>{{ getAccountName(transferForm.value.fromAccount) }}</span></p>
-                <p><strong>To:</strong> <span>{{ getAccountName(transferForm.value.toAccount) }}</span></p>
-                <p><strong>Amount:</strong> <span>{{ transferForm.value.amount | currency }}</span></p>
-                <p><strong>Date:</strong> <span>{{ transferForm.value.transferDate | date:'shortDate'}}</span></p>
-                <p><strong>Memo:</strong> <span>{{ transferForm.value.memo.length > 0 ? transferForm.value.memo  : "N/A" }}</span></p>
+            <div *ngIf="isLoading" class="loading-container">
+                <div class="spinner"></div>
+                <p>Processing your transfer...</p>
             </div>
     
-            <div class="modal-actions">
-                <button class="confirm" (click)="submitTransfer()">Confirm</button>
-                <button class="cancel" (click)="showConfirmation = false">Cancel</button>
+            <!-- Show success animation once transfer is complete -->
+            <div *ngIf="showSuccess" class="success-container">
+                <div class="checkmark">✔️</div>
+                <p>Transfer Successful!</p>
+            </div>
+    
+            <div *ngIf="!isLoading && !showSuccess">
+                <h2>Confirm Transfer</h2>
+    
+                <div class="modal-details">
+                    <p><strong>From:</strong> <span>{{ getAccountName(transferForm.value.fromAccount) }}</span></p>
+                    <p><strong>To:</strong> <span>{{ getAccountName(transferForm.value.toAccount) }}</span></p>
+                    <p><strong>Amount:</strong> <span>{{ transferForm.value.amount | currency }}</span></p>
+                    <p><strong>Date:</strong> <span>{{ transferForm.value.transferDate | date:'shortDate'}}</span></p>
+                    <p><strong>Memo:</strong> <span>{{ transferForm.value.memo.length > 0 ? transferForm.value.memo  : "N/A" }}</span></p>
+                </div>
+        
+                <div class="modal-actions">
+                    <button class="confirm" (click)="submitTransfer()">Confirm</button>
+                    <button class="cancel" (click)="showConfirmation = false">Cancel</button>
+                </div>
             </div>
         </div>
     </div>

@@ -7,13 +7,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { Landing3Component } from './components/landing-3/landing-3.component';
 import { LazyLoaderDirective } from '../shared/directives/lazy-loader.directive';
 import { fadeIn } from '../shared/utils/animations';
+import { Landing4Component } from './components/landing-4/landing-4.component';
 @NgModule({
   declarations: [
     HomePageComponent,
     LandingComponent,
     Landing2Component,
     Landing3Component,
-    LazyLoaderDirective
+    LazyLoaderDirective,
+    Landing4Component
   ],
   imports: [
     CommonModule,

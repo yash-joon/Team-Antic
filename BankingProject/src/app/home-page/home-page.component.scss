@@ -8,6 +8,8 @@ $white: #ffffff;
 main {
     display: flex;
     flex-direction: column;   
+    position: relative;
+    width: 100%;
 }
 
 .placeholder {
@@ -23,9 +25,6 @@ main {
 .third {
     background-color: $dark-green;
 }
-
-.landing-container {
-    position: relative;
-    width: 100%;
+.fourth { 
+    background-color: $gray;
 }
-

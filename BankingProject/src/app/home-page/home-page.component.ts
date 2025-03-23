@@ -11,6 +11,7 @@ export class HomePageComponent {
 
   landing2Visible = false;
   landing3Visible = false;
+  landing4Visible = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -18,6 +19,7 @@ export class HomePageComponent {
     setTimeout(() => {
       if (section === 'landing2') this.landing2Visible = true;
       if (section === 'landing3') this.landing3Visible = true;
+      if (section === 'landing4') this.landing4Visible = true;
       this.cdr.detectChanges();
     }, 10); // Slight delay for a smooth effect
   }

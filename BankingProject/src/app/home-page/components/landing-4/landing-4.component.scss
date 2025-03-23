@@ -1,0 +1,144 @@
+// Color Palette
+$dark-green: #2b6777;
+$mid-green: #52ab98;
+$washed-green: #c8d8e4;
+$gray: #f2f2f2;
+$white: #ffffff;
+$text-dark: #333;
+$green-gradient: linear-gradient(135deg, $mid-green, $dark-green);
+$box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+
+.premium-benefits {
+  background: $gray;
+  width: 100vw;
+  min-height: 100vh;  // ensures sufficient spacing
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .highlight-card {
+    background: $green-gradient;
+    color: $white;
+    padding: 2rem 1rem;
+    border-radius: 16px;
+    box-shadow: $box-shadow;
+    margin-bottom: 2rem;
+    width: 80vw;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $white;
+      margin-bottom: 0.5rem;
+    }
+
+    .big-number {
+      font-size: 4rem;
+      font-weight: 900;
+      color: $white;
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: $washed-green;
+      margin-top: 1rem;
+    }
+
+    .apply-btn {
+      margin-top: 1rem;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: $white;
+      color: $dark-green;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+      &:hover {
+        background: darken($white, 5%);
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .perks-section {
+    background: $white;
+    padding: 2rem 1rem;
+    border-radius: 16px;
+    box-shadow: $box-shadow;
+    width: 80vw;
+
+    h3 {
+      font-size: 1.8rem;
+      color: $dark-green;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $mid-green;
+      margin-bottom: 1.5rem;
+    }
+
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+
+      .perk-card {
+        background: $gray;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon {
+          font-size: 2.5rem;
+          color: $mid-green;
+          margin-bottom: 0.5rem;
+        }
+
+        h4 {
+          font-size: 1.2rem;
+          color: $dark-green;
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+          color: $text-dark;
+        }
+      }
+    }
+  }
+}
+
+// Fade-in Animation
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
